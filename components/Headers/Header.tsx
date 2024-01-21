@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import Modal from "../Modal/Modal";
 import Link from "next/link";
 import Image from "next/image";
+import CreateTask from "../CreateTask";
 
 export default function Header() {
   const [isCreateTaskOpen, setIsCreateTaskOpen] = useState<boolean>(false);
@@ -14,9 +15,9 @@ export default function Header() {
         isOpen={isCreateTaskOpen}
         onClose={() => setIsCreateTaskOpen(false)}
       >
-        <div>hello</div>
+        <CreateTask onCreateSuccess={() => setIsCreateTaskOpen(false)} />
       </Modal>
-      <header className="bg-gray-800 w-full h-16 flex items-center fixed top-0 z-50 text-white">
+      <header className="bg-gray-800 w-full text-[14px] h-16 flex items-center fixed top-0 z-50 text-white">
         <div className="font-bold text-lg w-1/6 h-full flex items-center pl-8">
           <Image
             src="/monoWhiteInverted-DefaultLogo-200px.png"
@@ -26,9 +27,9 @@ export default function Header() {
           />
         </div>
 
-        <div className="flex flex-1 h-full justify-center">
+        <div className="flex flex-1 h-full items-center">
           <button
-            className="mx-4 hover:bg-black px-4"
+            className="mx-4 hover:bg-black h-fit px-4 py-2 rounded-md"
             onClick={() => setIsCreateTaskOpen(true)}
           >
             Create

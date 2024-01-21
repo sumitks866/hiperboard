@@ -57,7 +57,7 @@ option:hover {
 }
 
 ::-webkit-scrollbar {
-  width: 3px; /* Set the width of the scrollbar */
+  width: 5px; /* Set the width of the scrollbar */
 }
 
 ::-webkit-scrollbar-track {

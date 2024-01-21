@@ -1,45 +1,63 @@
 "use client";
-import React, { ReactNode, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { AppDispatch, useAppSelector } from "@/lib/store/store";
-import { isNull } from "lodash";
-import { verifyUser } from "@/lib/store/auth/authSlice";
+import { isNull, isUndefined } from "lodash";
 import AppLayout from "@/components/Wrappers/AppLayout";
-import { fetchUserDetails } from "@/lib/store/user/userSlice";
+import { updateCompaniesList } from "@/lib/store/user/globalSlice";
 import { useSearchParams } from "next/navigation";
-import Workspace from "@/components/User/Workspace";
+import Workspace from "@/components/Workspace/Workspace";
+import { getCompanyDetails } from "@/api/company/getDetails";
+import { AxiosResponse } from "axios";
+import { IWorkspace } from "@/utils/types";
 
 export default function Page() {
   const searchParams = useSearchParams();
   const view = searchParams.get("view");
 
   const dispatch = useDispatch<AppDispatch>();
-  const { activeUser } = useAppSelector((state) => state.authReducer);
-  const { user } = useAppSelector((state) => state.userReducer);
+  const { user } = useAppSelector((state) => state.globalReducer);
+  const [companyIDMap, setCompanyIDMap] = useState<{
+    [key: string]: IWorkspace;
+  }>({});
+
+  const getCompanies = async (ids: string[] | undefined) => {
+    if (isUndefined(ids)) return;
+    getCompanyDetails(ids)
+      .then((res: AxiosResponse<any>) => {
+        setCompanyIDMap(res.data);
+        dispatch(updateCompaniesList(Object.values(res.data)));
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   useEffect(() => {
-    if (isNull(activeUser)) {
-      dispatch(verifyUser());
-    }
-
-    if (isNull(user)) {
-      dispatch(fetchUserDetails());
-    }
-  }, [activeUser, user, dispatch]);
-
-  if (isNull(user)) return null;
+    getCompanies(user?.companyRoles.map((r) => r.companyId));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user, dispatch]);
 
   const getActiveView = (): React.ReactNode => {
-    switch (view) {
-      default:
-        return <Workspace companyRoles={user.companyRoles} />;
-    }
+    return (
+      <Workspace
+        companyRoles={user?.companyRoles!}
+        companyIDMap={companyIDMap}
+      />
+    );
   };
 
   return (
     <AppLayout>
-      <div className="w-full mx-auto h-full flex bg-white">
-        {getActiveView()}
+      <div className="w-full mx-auto min-h-full flex p-4 bg-white text-[12px]">
+        {isNull(user) ? (
+          <div>Loading</div>
+        ) : (
+          <Workspace
+            companyRoles={user?.companyRoles!}
+            companyIDMap={companyIDMap}
+          />
+        )}
       </div>
     </AppLayout>
   );

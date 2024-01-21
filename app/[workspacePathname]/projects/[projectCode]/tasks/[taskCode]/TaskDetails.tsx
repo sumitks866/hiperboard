@@ -1,27 +1,30 @@
+"use client";
 /* eslint-disable @next/next/no-img-element */
 import Comments from "@/components/Comments/Comments";
+import InlineEdit from "@/components/Inline/InlineEdit";
+import TextInput from "@/components/Input/TextInput";
 import Select from "@/components/Select/Select";
 import HorizontalTabs from "@/components/Tabs/HorizontalTabs";
 import Tab from "@/components/Tabs/Tab";
-import { TaskPriority, TaskType } from "@/utils/enums";
-import { mockComments, mockProjects, mockTasks } from "@/utils/mock";
+import { TaskDispatchContext, TaskStateContext } from "@/context/TaskContext";
 import {
-  IProject,
+  ITaskState,
+  ITaskStateFields,
+  initialTaskState,
+  updateTaskDetails,
+} from "@/context/TaskReducer";
+import { TaskPriority, TaskType } from "@/utils/enums";
+import { mockComments } from "@/utils/mock";
+import {
   ITask,
+  SelectOption,
   TaskPriorityIcons,
   TaskStatusIcons,
   TaskTypeIcons,
 } from "@/utils/types";
+import { isUndefined } from "lodash";
 import { AvatarGenerator } from "random-avatar-generator";
-import React, { useState } from "react";
-
-interface IProps {
-  taskCode: string;
-}
-
-const getTask = (taskCode: string): ITask | undefined => {
-  return mockTasks.find((t) => t.taskCode === taskCode);
-};
+import React, { useContext, useEffect, useState } from "react";
 
 export function UserDetails(userId: string): React.JSX.Element {
   const avatarGenerator = new AvatarGenerator();
@@ -38,9 +41,29 @@ export function UserDetails(userId: string): React.JSX.Element {
   );
 }
 
-export default function TaskDetails({ taskCode }: IProps) {
-  const task = getTask(taskCode);
+export default function TaskDetails() {
   const [activeTabKey, setActiveTabKey] = useState<string | number>(0);
+  const [task, setTask] = useState<Partial<ITaskState>>(initialTaskState);
+
+  const typeOptions: SelectOption<TaskType>[] = Object.values(TaskType).map(
+    (value) => {
+      return {
+        value,
+        label: value,
+        keyNode: (
+          <div>
+            <i
+              className={`${TaskTypeIcons[value].icon} mr-2`}
+              style={{
+                color: TaskTypeIcons[value].color,
+              }}
+            />
+            <span>{value}</span>
+          </div>
+        ),
+      } as SelectOption<TaskType>;
+    }
+  );
 
   const handleTabSelect = (
     _: React.MouseEvent<HTMLButtonElement, MouseEvent>,
@@ -49,11 +72,31 @@ export default function TaskDetails({ taskCode }: IProps) {
     setActiveTabKey(tabKey);
   };
 
+  const { taskState } = useContext(TaskStateContext);
+  const dispatch = useContext(TaskDispatchContext);
+
+  useEffect(() => {
+    setTask(taskState);
+  }, [taskState]);
+
+  if (taskState.isLoading) return <div>Loading...</div>;
+  if (isUndefined(taskState)) return <div>Task not found </div>;
+
+  const handleTaskStateUpdate = () => {
+    console.log("updating");
+    updateTaskDetails(dispatch, taskState.id!, task);
+  };
+
+  const updateTaskField = (field: ITaskStateFields, value: any) => {
+    setTask((pre) => ({ ...pre, [field]: value }));
+  };
+  console.log(task.type);
+
   return (
     <div className="w-full overflow-hidden h-full">
       <div className="w-full py-6 px-4">
         <h1 className="text-[22px]">
-          <span className="font-semibold mr-2">{task?.taskCode}</span>{" "}
+          <span className="font-semibold mr-2">{task?.taskCode}</span>
           <span>{task?.title}</span>
         </h1>
       </div>
@@ -67,24 +110,50 @@ export default function TaskDetails({ taskCode }: IProps) {
                 <li className="w-full flex pb-2">
                   <div className="w-[50%] font-semibold">Type</div>
                   <div className="w-[50%]">
-                    <i
-                      className={`${
-                        TaskTypeIcons[task?.type || TaskType.EPIC].icon
-                      } mr-2`}
-                      style={{
-                        color: TaskTypeIcons[task?.type || TaskType.EPIC].color,
-                      }}
-                    />
-                    <span>{task?.type}</span>
+                    <InlineEdit
+                      handleChange={handleTaskStateUpdate}
+                      editComponent={
+                        <Select
+                          onChange={(v) => updateTaskField("type", v.value)}
+                          options={typeOptions}
+                          selected={task.type}
+                          isInline
+                        />
+                      }
+                    >
+                      <>
+                        <i
+                          className={`${TaskTypeIcons[task?.type!].icon} mr-2`}
+                          style={{
+                            color: TaskTypeIcons[task?.type!].color,
+                          }}
+                        />
+                        <span>{task?.type}</span>
+                      </>
+                    </InlineEdit>
                   </div>
                 </li>
                 <li className="w-full flex mb-2">
                   <div className="w-[50%] font-semibold">Story Points</div>
-                  <div className="w-[50%]">{task?.storyPoints || "None"}</div>
+                  <div className="w-[50%]">
+                    <InlineEdit
+                      editComponent={
+                        <TextInput
+                          value={task?.storyPoints || ""}
+                          onChange={(_, v) => updateTaskField("storyPoints", v)}
+                          isInline
+                          autoFocus
+                        />
+                      }
+                      handleChange={handleTaskStateUpdate}
+                    >
+                      <span>{task?.storyPoints || "None"}</span>
+                    </InlineEdit>
+                  </div>
                 </li>
                 <li className="w-full flex mb-2">
                   <div className="w-[50%] font-semibold">Stars</div>
-                  <div className="w-[50%]">{task?.stargazers.length}</div>
+                  <div className="w-[50%]">{task?.stargazers?.length}</div>
                 </li>
 
                 <li className="w-full flex mb-2">
@@ -112,15 +181,10 @@ export default function TaskDetails({ taskCode }: IProps) {
                   <div className="w-[50%]">
                     <i
                       className={`${
-                        TaskPriorityIcons[
-                          task?.priority || TaskPriority.UNASSIGNED
-                        ].icon
+                        TaskPriorityIcons[task?.priority!].icon
                       } mr-2`}
                       style={{
-                        color:
-                          TaskPriorityIcons[
-                            task?.priority || TaskPriority.UNASSIGNED
-                          ].background,
+                        color: TaskPriorityIcons[task?.priority!].background,
                       }}
                     />
                     <span>{task?.priority || "None"}</span>
@@ -156,22 +220,22 @@ export default function TaskDetails({ taskCode }: IProps) {
                   <li className="w-full flex mb-8 items-center">
                     <div className="w-[50%] font-semibold">Assignee</div>
                     <div className="w-[50%]">
-                      {task?.assigneeId
-                        ? UserDetails(task?.assigneeId)
+                      {task?.assigneeEmail
+                        ? UserDetails(task?.assigneeEmail)
                         : "None"}
                     </div>
                   </li>
                   <li className="w-full flex mb-8 items-center">
                     <div className="w-[50%] font-semibold">Reporter</div>
                     <div className="w-[50%]">
-                      {UserDetails(task?.reporterId!)}
+                      {UserDetails(task?.reporterEmail!)}
                     </div>
                   </li>
                   <li className="w-full flex mb-8 items-center">
                     <div className="w-[50%] font-semibold">QA Contact</div>
                     <div className="w-[50%]">
-                      {task?.qaContactId
-                        ? UserDetails(task?.qaContactId!)
+                      {task?.qaContactEmail
+                        ? UserDetails(task?.qaContactEmail!)
                         : "None"}
                     </div>
                   </li>

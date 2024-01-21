@@ -10,6 +10,7 @@ interface ITextInputProps {
   required?: boolean;
   validated?: "default" | "error";
   errorMsg?: string;
+  autoFocus?: boolean;
 }
 
 export default function TextArea({
@@ -22,6 +23,7 @@ export default function TextArea({
   required,
   validated,
   errorMsg,
+  autoFocus,
 }: ITextInputProps) {
   return (
     <div className={classname}>
@@ -34,8 +36,9 @@ export default function TextArea({
         value={value || ""}
         onChange={(e) => onChange && onChange(e, e.target.value)}
         placeholder={placeholder}
-        className={`border-2 border-white px-3 py-2 rounded-md w-full focus:outline-none focus:border-gray-500`}
+        className={`border border-gray-400 w-full px-2 py-2 rounded-sm bg-gray-50 focus:bg-white`}
         rows={8}
+        autoFocus={autoFocus}
       />
       {validated === "error" && (
         <span className="text-red-600 text-xs pt-2">{errorMsg || ""}</span>

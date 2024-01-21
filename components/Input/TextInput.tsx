@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 interface ITextInputProps {
   label?: string;
@@ -10,6 +10,9 @@ interface ITextInputProps {
   required?: boolean;
   validated?: "default" | "error";
   errorMsg?: string;
+  autoFocus?: boolean;
+  fixedValue?: string;
+  isInline?: boolean;
 }
 
 export default function TextInput({
@@ -22,20 +25,34 @@ export default function TextInput({
   required,
   validated,
   errorMsg,
+  autoFocus,
+  fixedValue = "",
+  isInline = false,
 }: ITextInputProps) {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.value.startsWith(fixedValue)) {
+      const modifiableValue = e.target.value.substring(fixedValue.length);
+      onChange && onChange(e, modifiableValue);
+    }
+  };
   return (
     <div className={classname}>
-      <label htmlFor={id} className="block mb-2 font-semibold">
-        <span>{label}</span>
-        {required && <span className="text-red-600">*</span>}
-      </label>
+      {label && (
+        <label htmlFor={id} className="block mb-2 font-semibold">
+          <span>{label}</span>
+          {required && <span className="text-red-600">*</span>}
+        </label>
+      )}
       <input
         type="text"
         id={id}
-        value={value || ""}
-        onChange={(e) => onChange && onChange(e, e.target.value)}
+        value={fixedValue + value}
+        onChange={handleInputChange}
         placeholder={placeholder}
-        className="border border-gray-800 w-full px-2 py-2 rounded-sm bg-gray-100 focus:bg-white "
+        className={`${
+          isInline ? "focus:outline-none" : "border px-2 py-2 focus:bg-white"
+        }  border-gray-400 w-full rounded-sm bg-gray-50 `}
+        autoFocus={autoFocus}
       />
       {validated === "error" && (
         <span className="text-red-600 text-xs pt-2">{errorMsg || ""}</span>

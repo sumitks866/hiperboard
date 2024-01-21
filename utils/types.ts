@@ -3,6 +3,12 @@ import { TaskPriority, TaskStatus, TaskType } from "./enums";
 export interface SelectOption<T> {
   value: T;
   label: string;
+  keyNode?: React.ReactNode;
+}
+
+export interface IAction<T, P> {
+  type: T;
+  payload?: Partial<P>;
 }
 
 export interface NavigatorOptions {
@@ -11,14 +17,17 @@ export interface NavigatorOptions {
   route: string;
 }
 
-export interface ICompany {
+export interface IWorkspace {
   id: string;
   name: string;
+  pathname: string;
   adminEmails?: string[];
   employeeEmails?: string[];
+  projects?: string[];
 }
 
 export interface IUserRole {
+  companyName?: string;
   companyId: string;
   role: "admin" | "employee";
 }
@@ -31,6 +40,7 @@ export interface IUser {
 }
 
 export interface IProject {
+  id: string;
   name: string;
   code: string;
   manager: string; //username
@@ -47,16 +57,17 @@ export interface IComment {
 }
 
 export interface ITask {
-  projectCode: string;
+  id: string;
+  projectId: string;
   taskCode: string;
   status: TaskStatus;
   type: TaskType;
   title: string;
-  description: string;
+  description?: string;
   storyPoints?: "1" | "3" | "5" | "8" | "13" | "21";
-  assigneeId?: string;
-  reporterId: string;
-  qaContactId?: string;
+  assigneeEmail?: string;
+  reporterEmail: string;
+  qaContactEmail?: string;
   priority?: TaskPriority;
   fixVersion?: string;
   labels?: string[];
@@ -176,8 +187,8 @@ export type TaskTypeWithIcon = {
 };
 
 export const TaskTypeIcons: TaskTypeWithIcon = {
-  [TaskType.FIX]: {
-    icon: "fas fa-wrench",
+  [TaskType.BUG]: {
+    icon: "fa fa-bug",
     color: "#FF6347", // Tomato
   },
   [TaskType.IMPROVEMENT]: {
@@ -202,7 +213,7 @@ export const TaskTypeIcons: TaskTypeWithIcon = {
   },
   [TaskType.REQUEST]: {
     icon: "fas fa-comment",
-    color: "#808080", // Gray
+    color: "#9AC1E1", // Gray
   },
   [TaskType.DOC]: {
     icon: "far fa-file-alt", // Example icon for documentation

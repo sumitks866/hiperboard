@@ -1,28 +1,16 @@
-import { UserDetails } from "@/app/tasks/[taskCode]/TaskDetails";
-import { mockProjects } from "@/utils/mock";
 import { IProject } from "@/utils/types";
-import { isUndefined } from "lodash";
 import React from "react";
 
 interface IProps {
-  projectCode: string;
+  project: IProject;
 }
 
-const getProject = (projectCode: string): IProject | undefined => {
-  return mockProjects.find((p) => p.code === projectCode);
-};
-
-export default function ProjectSummary({ projectCode }: IProps) {
-  const project = getProject(projectCode);
-
-  if (isUndefined(project)) return <div>Cannot find Project</div>;
-
+export default function ProjectSummary({ project }: IProps) {
   return (
     <div className="w-full overflow-hidden h-full bg-white">
-      {" "}
       <div className="w-full py-6 px-4">
         <h1 className="text-[22px]">
-          <span className="font-semibold mr-2">{projectCode}</span>{" "}
+          <span className="font-semibold mr-2">{project.code}</span>{" "}
           <span>{project?.name}</span>
         </h1>
       </div>
@@ -33,6 +21,11 @@ export default function ProjectSummary({ projectCode }: IProps) {
             <li className="w-full flex mb-8 items-center">
               <div className="w-[50%] font-semibold">Name</div>
               <div className="w-[50%]">{project.name}</div>
+            </li>
+
+            <li className="w-full flex mb-8 items-center">
+              <div className="w-[50%] font-semibold">Description</div>
+              <div className="w-[50%]">{project.code}</div>
             </li>
 
             <li className="w-full flex mb-8 items-center">
@@ -47,6 +40,16 @@ export default function ProjectSummary({ projectCode }: IProps) {
 
             <li className="w-full flex mb-8 items-center">
               <div className="w-[50%] font-semibold">Active Contributers</div>
+              <div className="w-[50%]">{project?.manager || ""}</div>
+            </li>
+
+            <li className="w-full flex mb-8 items-center">
+              <div className="w-[50%] font-semibold">Issues</div>
+              <div className="w-[50%]">{project?.manager || ""}</div>
+            </li>
+
+            <li className="w-full flex mb-8 items-center">
+              <div className="w-[50%] font-semibold">Releases</div>
               <div className="w-[50%]">{project?.manager || ""}</div>
             </li>
           </ul>

@@ -1,11 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import projectReducer from "./projects/projectSlice";
 import authReducer from "./auth/authSlice";
-import userReducer from "./user/userSlice";
+import globalReducer from "./user/globalSlice";
 import { TypedUseSelectorHook, useSelector } from "react-redux";
 
 export const store = configureStore({
-  reducer: { projectReducer, authReducer, userReducer },
+  reducer: { projectReducer, authReducer, globalReducer },
 });
 
 export type RootState = ReturnType<typeof store.getState>;

@@ -1,14 +1,14 @@
 export enum TaskPriority {
+  UNASSIGNED = "Unassigned",
   MINOR = "Minor",
   MEDIUM = "Medium",
   MAJOR = "Major",
   CRITICAL = "Critical",
   BLOCKER = "Blocker",
-  UNASSIGNED = "Unassigned",
 }
 
 export enum TaskType {
-  FIX = "Fix",
+  BUG = "Bug",
   IMPROVEMENT = "Improvement",
   TASK = "Task",
   FEATURE = "Feature",

@@ -1,19 +1,29 @@
-import { mockProjects } from "@/utils/mock";
 import { IProject } from "@/utils/types";
-import { createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 interface ProjectState {
-  activeProject: IProject | undefined;
+  activeProject: IProject | null;
+  projectList: IProject[];
 }
 
 const initialProjectState: ProjectState = {
-  activeProject: mockProjects[0],
+  activeProject: null,
+  projectList: [],
 };
 
 export const projectSlice = createSlice({
   name: "project",
   initialState: initialProjectState,
-  reducers: {},
+  reducers: {
+    updateProjectList: (state, action: PayloadAction<IProject[]>) => {
+      state.projectList = action.payload;
+    },
+    setActiveProject: (state, action: PayloadAction<IProject>) => {
+      state.activeProject = action.payload;
+    },
+  },
 });
+
+export const { updateProjectList, setActiveProject } = projectSlice.actions;
 
 export default projectSlice.reducer;

@@ -1,9 +1,14 @@
 "use client";
-import { mockProjects } from "@/utils/mock";
 import { NavigatorOptions } from "@/utils/types";
-import React from "react";
+import React, { useEffect } from "react";
 import Link from "next/link";
 import { useParams, useSearchParams } from "next/navigation";
+import { AppDispatch, useAppSelector } from "@/lib/store/store";
+import { useQuery } from "react-query";
+import { getProjectByCode } from "@/api/project";
+import { isUndefined } from "lodash";
+import { setActiveProject } from "@/lib/store/projects/projectSlice";
+import { useDispatch } from "react-redux";
 
 const options: NavigatorOptions[] = [
   { name: "Backlogs", route: "backlogs", icon: "far fa-list-alt" },
@@ -16,23 +21,33 @@ export default function BoardNavigator() {
   const params = useParams();
   const searchParams = useSearchParams();
   const view = searchParams.get("view");
-  const project = mockProjects[0];
+  const dispatch = useDispatch<AppDispatch>();
+  const { activeProject } = useAppSelector((state) => state.projectReducer);
+  const project = activeProject;
+
+  const { data } = useQuery(["project-by-code", params.projectCode], () =>
+    getProjectByCode(params.projectCode as string)
+  );
+  useEffect(() => {
+    if (isUndefined(data)) return;
+    dispatch(setActiveProject(data?.data));
+  }, [data, data?.data, dispatch]);
 
   return (
     <div className="flex flex-col">
-      <Link href={`/projects/${project?.code}`}>
-        <button className="font-bold text-md whitespace-no-wrap overflow-hidden overflow-ellipsis py-6 pl-4">
-          {project.name}
+      <Link href={`/${params.workspacePathname}/projects/${project?.code}`}>
+        <button className="font-bold text-[16px] whitespace-no-wrap overflow-hidden overflow-ellipsis py-6 pl-4">
+          {project?.name}
         </button>
       </Link>
       <ul className="px-2 pt-12">
         {options.map((option) => (
           <Link
-            href={`/projects/${params?.projectCode}?view=${option.route}`}
+            href={`/${params.workspacePathname}/projects/${params?.projectCode}?view=${option.route}`}
             key={option.name}
           >
             <li
-              className={`py-2 my-1 rounded-md px-2 text-sm hover:bg-gray-200 ${
+              className={`py-2 my-1 rounded-md px-2 text-[13px] hover:bg-gray-200 ${
                 view === option.route ? "bg-gray-300 hover:bg-gray-300" : ""
               }`}
             >

@@ -1,25 +1,12 @@
 import { TaskPriority, TaskStatus, TaskType } from "./enums";
 import { IComment, IProject, ITask } from "./types";
 
-export const mockProjects: IProject[] = [
-  {
-    name: "My Movie List - FE",
-    code: "MML-FE",
-    manager: "sumitks866",
-  },
-  {
-    name: "Typeracer",
-    code: "TRC",
-    manager: "suyashmadhesia",
-  },
-];
-
 export const mockTasks: ITask[] = [
   {
     projectCode: "TRC",
     taskCode: "TRC-001",
     status: TaskStatus.DEVELOPMENT_COMPLETE,
-    type: TaskType.FIX,
+    type: TaskType.BUG,
     title: "Implement Login Functionality",
     description:
       'The task involves developing a user-friendly login system for our frontend application, necessitating the creation of a login interface where users can input their username/email and password to access the platform. The primary objective is to ensure secure authentication, handling valid and invalid credentials appropriately with clear error messaging. To achieve this, implement a responsive login page with necessary input fields and a "Login" button, enabling users to log in securely. Utilize encryption methods for password security and HTTPS for data encryption during transmission. Additionally, include a "Remember Me" option for user convenience across sessions. Testing across various environments is crucial to validate functionality, encompassing valid input scenarios, error handling, and overall usability checks. This task should be completed in line with the specified deadline, following collaboration with backend developers for seamless integration and adhering to security best practices throughout the development process.',

@@ -1,24 +1,25 @@
 import { SelectOption } from "@/utils/types";
-import { isEqual } from "lodash";
-import React, { useState } from "react";
+import { find, isEqual, isUndefined } from "lodash";
+import React, { useEffect, useState } from "react";
 
 interface ISelectProps {
   label?: string;
-  value?: string;
+  selected?: any;
   placeholder?: string;
   id?: string;
   classname?: string;
   onChange?: (value: any) => void;
-  options: SelectOption<any>[] | string[];
+  options: SelectOption<any>[];
   typeahead?: boolean;
   required?: boolean;
   validated?: "default" | "error";
   errorMsg?: string;
+  isInline?: boolean;
 }
 
 export default function Select({
   label,
-  value,
+  selected,
   onChange,
   placeholder,
   id,
@@ -28,43 +29,59 @@ export default function Select({
   required,
   validated,
   errorMsg,
+  isInline = false,
 }: ISelectProps) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [selectedOption, setSelectedOption] = useState<SelectOption<any>>();
 
-  const handleSelect = (option: SelectOption<any> | string) => {
+  const handleSelect = (option: SelectOption<any>) => {
     onChange && onChange(option);
     setIsOpen(false);
   };
 
+  useEffect(() => {
+    const _selectedOption = find(options, (o) => {
+      return isEqual(o.value, selected);
+    });
+    if (!isUndefined(_selectedOption)) setSelectedOption(_selectedOption);
+  }, [selected, options, label]);
+
   return (
-    <div className={`${classname}`}>
-      <label htmlFor={id} className="block mb-2 font-semibold">
-        <span>{label}</span>
-        {required && <span className="text-red-600">*</span>}
-      </label>
+    <div className={`${classname} w-full`}>
+      {label && (
+        <label htmlFor={id} className="block mb-2 font-semibold">
+          <span>{label}</span>
+          {required && <span className="text-red-600">*</span>}
+        </label>
+      )}
 
       <div className="w-full relative">
         <div
-          className={`bg-white border-2 border-white p-3 rounded-md focus:outline-none focus:border-gray-500 w-full h-12`}
+          className={`${
+            isInline ? "" : "px-2 border border-gray-400 min-h-9"
+          } w-full  flex items-center rounded-sm bg-gray-50 focus:bg-white  cursor-pointer`}
           onClick={() => setIsOpen((pre) => !pre)}
         >
-          {value || ""}
+          {selectedOption ? (
+            <>{selectedOption.keyNode || selectedOption?.label}</>
+          ) : (
+            <span className="text-gray-400">{placeholder}</span>
+          )}
         </div>
 
         {isOpen && (
-          <div className="absolute top-full left-0 mt-0 w-full bg-white border-t border-gray-300 rounded-b-md shadow-md z-10 p-2 max-h-[300px] overflow-y-auto">
-            {options.map((option, index) => (
+          <div className="absolute top-full left-0 mt-0 w-full bg-white border-t border-gray-300 rounded-b-sm shadow-md z-10 p-2 max-h-[300px] overflow-y-auto">
+            {(options || []).map((option, index) => (
               <div
-                className={`p-2 cursor-pointer hover:bg-gray-100 focus:bg-gray-200 ${
-                  isEqual(
-                    typeof option === "string" ? option : option.label,
-                    value
-                  ) && "bg-gray-200"
+                className={`${
+                  isInline ? "" : "p-2"
+                }  cursor-pointer hover:bg-gray-100 focus:bg-gray-200 ${
+                  isEqual(option.value, selected) && "bg-gray-200"
                 }`}
                 key={index}
                 onClick={() => handleSelect(option)}
               >
-                {typeof option === "string" ? option : option.label}
+                {option.keyNode || option.label}
               </div>
             ))}
           </div>

@@ -1,12 +1,12 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
-import { TaskPriority } from "@/utils/enums";
+import { TaskPriority, TaskStatus } from "@/utils/enums";
 import { ITask, TaskPriorityIcons, TaskStatusIcons } from "@/utils/types";
 import { AvatarGenerator } from "random-avatar-generator";
 import Link from "next/link";
 import React from "react";
 import Chip from "../Tags/Chip";
-import { useSearchParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 import { isNull } from "lodash";
 
 interface IProps {
@@ -14,12 +14,17 @@ interface IProps {
 }
 
 export default function BacklogIssueCard({ task }: IProps) {
+  const params = useParams();
   const searchParams = useSearchParams();
   const view = searchParams.get("view");
   const avatarGenerator = new AvatarGenerator();
 
   return (
-    <Link href={`/tasks/${task.taskCode}${!isNull(view) && `?view=${view}`}`}>
+    <Link
+      href={`/${params.workspacePathname}/projects/${
+        params.projectCode
+      }/tasks/${task.taskCode}${!isNull(view) && `?view=${view}`}`}
+    >
       <div className="flex justify-between w-full h-12 items-center px-4 py-2 shadow-xs hover:shadow-sm my-1 bg-white hover:bg-gray-50 text-xs cursor-pointer">
         <div className="">
           <span className="">
@@ -43,16 +48,23 @@ export default function BacklogIssueCard({ task }: IProps) {
         <div className="flex items-center w-fit">
           <div
             className={`mx-2 px-2 py-[2px] rounded-2xl`}
-            style={{ backgroundColor: TaskStatusIcons[task.status].background }}
+            style={{
+              backgroundColor:
+                TaskStatusIcons[task.status || TaskStatus.NEW].background,
+            }}
           >
-            <i className={`${TaskStatusIcons[task.status].icon} mr-2`} />
+            <i
+              className={`${
+                TaskStatusIcons[task.status || TaskStatus.NEW].icon
+              } mr-2`}
+            />
             <span>{task.status}</span>
           </div>
           <Chip classname="mx-2" value={task.storyPoints} />
-          {task.assigneeId ? (
+          {task.assigneeEmail ? (
             <img
-              src={avatarGenerator.generateRandomAvatar(task?.assigneeId!)}
-              alt={task?.assigneeId!}
+              src={avatarGenerator.generateRandomAvatar(task.assigneeEmail!)}
+              alt={task.assigneeEmail!}
               className={`h-7`}
             />
           ) : (

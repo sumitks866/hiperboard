@@ -5,7 +5,8 @@ import { baseAPI } from ".";
 interface CreateProjectRequest {
   name: string;
   manager: string; // username
-  companyId?: string;
+  companyId: string;
+  code: string;
   config?: AxiosRequestConfig;
 }
 
@@ -16,18 +17,24 @@ export const createProject = async (request: CreateProjectRequest) => {
     {
       name: request.name,
       manager: request.manager,
-      companyId: request.manager,
+      companyId: request.companyId,
+      code: request.code,
     },
     { headers: { "Content-Type": "application/json" } }
   );
 };
 
-export const getProjectById = async (projectID: string) => {
-  const url = `/project/${projectID}`;
+export const getProjectByCode = async (code: string) => {
+  const url = `/project/${code}`;
   return baseAPI.get(url);
 };
 
 export const getProjectsByCompanyId = async (companyID: string) => {
   const url = `/project/byCompany/${companyID}`;
+  return baseAPI.get(url);
+};
+
+export const getProjectsByWorkspacePathname = async (pathname: string) => {
+  const url = `/project/pathname/${pathname}`;
   return baseAPI.get(url);
 };

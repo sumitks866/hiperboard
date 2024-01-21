@@ -9,17 +9,14 @@ import { AvatarGenerator } from "random-avatar-generator";
 import React from "react";
 
 const options: NavigatorOptions[] = [
-  { name: "Projects", route: "projects", icon: "far fa-folder" },
-  { name: "Assigned to Me", route: "assigned-to-me", icon: "far fa-user" },
-  { name: "Mentions", route: "mentions", icon: "fas fa-at" },
-  { name: "Activities", route: "activities", icon: "far fa-chart-bar" },
-  { name: "Starred", route: "starred", icon: "far fa-star" },
-  // { name: "Profile", route: "/profile", icon: "far fa-user-circle" },
+  { name: "Workspaces", route: "workspaces", icon: "far fa-building" },
+  { name: "My Profile", route: "profile", icon: "far fa-user-circle" },
+  { name: "Profile Settings", route: "profile-settings", icon: "fa fa-cog" },
 ];
 
 export default function UserNavigator() {
   const searchParams = useSearchParams();
-  const view = searchParams.get("view");
+  const view = searchParams.get("view") || "workspaces";
 
   const { activeUser } = useAppSelector((state) => state.authReducer);
   const user = activeUser;
@@ -42,7 +39,7 @@ export default function UserNavigator() {
         {options.map((option) => (
           <Link href={`/home?view=${option.route}`} key={option.name}>
             <li
-              className={`py-2 my-1 rounded-md px-2 text-sm hover:bg-gray-200 ${
+              className={`py-2 my-1 rounded-md px-2 text-[13px] hover:bg-gray-200 ${
                 view === option.route ? "bg-gray-300 hover:bg-gray-300" : ""
               }`}
             >
