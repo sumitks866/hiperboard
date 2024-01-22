@@ -19,6 +19,7 @@ import { useAppSelector } from "@/lib/store/store";
 import { isEmpty, isNull } from "lodash";
 import { AvatarGenerator } from "random-avatar-generator";
 import { createTask } from "@/api/task";
+import { TaskPriorityOptions, TaskTypeOPtions } from "./Select/SelectOptions";
 
 interface IProps {
   onCreateSuccess?: () => void;
@@ -50,7 +51,7 @@ export default function CreateTask({ onCreateSuccess }: IProps) {
   const [priority, setPriority] = useState<TaskPriority>(
     TaskPriority.UNASSIGNED
   );
-  const [type, setType] = useState<TaskType>();
+  const [type, setType] = useState<TaskType>(TaskTypeOPtions[0].value);
   const [assignee, setAssignee] = useState<IUser>();
   const [submitBtnClicked, setSubmitBtnClicked] = useState<boolean>(false);
   const [reporter, setReporter] = useState<IUser>();
@@ -64,46 +65,6 @@ export default function CreateTask({ onCreateSuccess }: IProps) {
   const { user } = useAppSelector((state) => state.globalReducer);
 
   const relatedIssuesOptions: SelectOption<string> = [];
-
-  const typeOptions: SelectOption<TaskType>[] = Object.values(TaskType).map(
-    (value) => {
-      return {
-        value,
-        label: value,
-        keyNode: (
-          <div>
-            <i
-              className={`${TaskTypeIcons[value].icon} mr-2`}
-              style={{
-                color: TaskTypeIcons[value].color,
-              }}
-            />
-            <span>{value}</span>
-          </div>
-        ),
-      } as SelectOption<TaskType>;
-    }
-  );
-
-  const priorityOptions: SelectOption<TaskPriority>[] = Object.values(
-    TaskPriority
-  ).map((value) => {
-    return {
-      value,
-      label: value,
-      keyNode: (
-        <div>
-          <i
-            className={`${TaskPriorityIcons[value].icon} mr-2`}
-            style={{
-              color: TaskPriorityIcons[value].background,
-            }}
-          />
-          <span>{value}</span>
-        </div>
-      ),
-    } as SelectOption<TaskPriority>;
-  });
 
   const assigneeOptions: SelectOption<IUser>[] = (
     !isNull(user) ? [user] : []
@@ -158,10 +119,6 @@ export default function CreateTask({ onCreateSuccess }: IProps) {
   };
 
   useEffect(() => {
-    setType(typeOptions[0].value);
-  }, []);
-
-  useEffect(() => {
     if (!isNull(user)) setReporter(user);
   }, [user]);
 
@@ -199,7 +156,7 @@ export default function CreateTask({ onCreateSuccess }: IProps) {
             id="task-type"
             selected={type}
             onChange={(val) => setType(val.value)}
-            options={typeOptions}
+            options={TaskTypeOPtions}
             classname="w-[49%]"
             required
             validated={
@@ -238,7 +195,7 @@ export default function CreateTask({ onCreateSuccess }: IProps) {
             id="task-priority"
             selected={priority}
             onChange={(val) => setPriority(val.value)}
-            options={priorityOptions}
+            options={TaskPriorityOptions}
             classname="w-[49%]"
             placeholder="Select Priority"
           />

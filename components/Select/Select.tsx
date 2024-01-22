@@ -47,7 +47,7 @@ export default function Select({
   }, [selected, options, label]);
 
   return (
-    <div className={`${classname} w-full`}>
+    <div className={`${classname} select-none`}>
       {label && (
         <label htmlFor={id} className="block mb-2 font-semibold">
           <span>{label}</span>
@@ -74,7 +74,7 @@ export default function Select({
             {(options || []).map((option, index) => (
               <div
                 className={`${
-                  isInline ? "" : "p-2"
+                  isInline ? "p-1" : "p-2"
                 }  cursor-pointer hover:bg-gray-100 focus:bg-gray-200 ${
                   isEqual(option.value, selected) && "bg-gray-200"
                 }`}

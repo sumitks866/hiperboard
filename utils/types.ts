@@ -134,7 +134,7 @@ export const TaskStatusIcons: TaskStatusWithIcon = {
   },
   [TaskStatus.IN_PROGRESS]: {
     icon: "fas fa-spinner",
-    background: "#B2E0FF",
+    background: "#D4F2FF",
     color: "#6096C3",
   },
   [TaskStatus.ON_QA]: {

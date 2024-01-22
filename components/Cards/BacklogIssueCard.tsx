@@ -25,7 +25,7 @@ export default function BacklogIssueCard({ task }: IProps) {
         params.projectCode
       }/tasks/${task.taskCode}${!isNull(view) && `?view=${view}`}`}
     >
-      <div className="flex justify-between w-full h-12 items-center px-4 py-2 shadow-xs hover:shadow-sm my-1 bg-white hover:bg-gray-50 text-xs cursor-pointer">
+      <div className="flex justify-between border w-full h-12 items-center px-4 py-2 shadow-xs hover:shadow-sm bg-white hover:bg-gray-50 text-xs cursor-pointer">
         <div className="">
           <span className="">
             <i

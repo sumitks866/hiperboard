@@ -27,7 +27,7 @@ export default function Backlogs() {
   }, [activeProject]);
 
   return (
-    <div className="w-full mx-auto bg-[#F5F5F5] min-h-full px-8 py-2">
+    <div className="w-full mx-auto min-h-full px-8 py-2">
       <h2 className="py-6 text-xl font-semibold">Backlogs</h2>
       <hr className="border-gray-400" />
       <div className="w-full mt-4">

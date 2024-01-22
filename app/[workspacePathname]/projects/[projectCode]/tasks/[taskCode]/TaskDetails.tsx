@@ -2,10 +2,17 @@
 /* eslint-disable @next/next/no-img-element */
 import Comments from "@/components/Comments/Comments";
 import InlineEdit from "@/components/Inline/InlineEdit";
+import TextEditor from "@/components/Input/TextEditor";
 import TextInput from "@/components/Input/TextInput";
 import Select from "@/components/Select/Select";
+import {
+  TaskPriorityOptions,
+  TaskStatusOptions,
+  TaskTypeOPtions,
+} from "@/components/Select/SelectOptions";
 import HorizontalTabs from "@/components/Tabs/HorizontalTabs";
 import Tab from "@/components/Tabs/Tab";
+import TagGroup from "@/components/Tags/TagGroup";
 import { TaskDispatchContext, TaskStateContext } from "@/context/TaskContext";
 import {
   ITaskState,
@@ -13,11 +20,8 @@ import {
   initialTaskState,
   updateTaskDetails,
 } from "@/context/TaskReducer";
-import { TaskPriority, TaskType } from "@/utils/enums";
 import { mockComments } from "@/utils/mock";
 import {
-  ITask,
-  SelectOption,
   TaskPriorityIcons,
   TaskStatusIcons,
   TaskTypeIcons,
@@ -45,26 +49,6 @@ export default function TaskDetails() {
   const [activeTabKey, setActiveTabKey] = useState<string | number>(0);
   const [task, setTask] = useState<Partial<ITaskState>>(initialTaskState);
 
-  const typeOptions: SelectOption<TaskType>[] = Object.values(TaskType).map(
-    (value) => {
-      return {
-        value,
-        label: value,
-        keyNode: (
-          <div>
-            <i
-              className={`${TaskTypeIcons[value].icon} mr-2`}
-              style={{
-                color: TaskTypeIcons[value].color,
-              }}
-            />
-            <span>{value}</span>
-          </div>
-        ),
-      } as SelectOption<TaskType>;
-    }
-  );
-
   const handleTabSelect = (
     _: React.MouseEvent<HTMLButtonElement, MouseEvent>,
     tabKey: string | number
@@ -90,7 +74,6 @@ export default function TaskDetails() {
   const updateTaskField = (field: ITaskStateFields, value: any) => {
     setTask((pre) => ({ ...pre, [field]: value }));
   };
-  console.log(task.type);
 
   return (
     <div className="w-full overflow-hidden h-full">
@@ -102,10 +85,10 @@ export default function TaskDetails() {
       </div>
       <hr />
       <div className="w-full flex h-full">
-        <div className="w-[55%] h-[calc(100%-82px)] overflow-y-auto py-4 px-6">
+        <div className="w-[55%] h-[calc(100%-82px)] text-[13px] overflow-y-auto py-4 px-6">
           <div className="task-details-section w-full">
             <h2 className="font-semibold mb-4">Details</h2>
-            <div className="w-full grid grid-cols-2 gap-12 text-[13px]">
+            <div className="w-full grid grid-cols-2 gap-12">
               <ul className="">
                 <li className="w-full flex pb-2">
                   <div className="w-[50%] font-semibold">Type</div>
@@ -115,9 +98,10 @@ export default function TaskDetails() {
                       editComponent={
                         <Select
                           onChange={(v) => updateTaskField("type", v.value)}
-                          options={typeOptions}
+                          options={TaskTypeOPtions}
                           selected={task.type}
                           isInline
+                          classname="w-full"
                         />
                       }
                     >
@@ -158,19 +142,44 @@ export default function TaskDetails() {
 
                 <li className="w-full flex mb-2">
                   <div className="w-[50%] font-semibold">Labels</div>
-                  <div className="w-[50%]">{task?.labels || "None"}</div>
+                  <div className="w-[50%]">
+                    <TagGroup tagsList={["frontent", "qa", "important"]} />
+                  </div>
                 </li>
 
                 <li className="w-full flex mb-2">
                   <div className="w-[50%] font-semibold">Status</div>
                   <div className="w-[50%]">
-                    <i
-                      className={`${TaskStatusIcons[task?.status!].icon} mr-2`}
-                      style={{
-                        color: TaskStatusIcons[task?.status!].color,
-                      }}
-                    />
-                    <span>{task?.status}</span>
+                    <InlineEdit
+                      handleChange={handleTaskStateUpdate}
+                      editComponent={
+                        <Select
+                          selected={task.status}
+                          options={TaskStatusOptions}
+                          onChange={(v) => updateTaskField("status", v.value)}
+                          isInline
+                          classname="w-full"
+                        />
+                      }
+                    >
+                      <div
+                        style={{
+                          backgroundColor:
+                            TaskStatusIcons[task?.status!].background,
+                        }}
+                        className="rounded-full px-2 w-fit"
+                      >
+                        <i
+                          className={`${
+                            TaskStatusIcons[task?.status!].icon
+                          } mr-2`}
+                          style={{
+                            color: TaskStatusIcons[task?.status!].color,
+                          }}
+                        />
+                        <span>{task?.status}</span>
+                      </div>
+                    </InlineEdit>
                   </div>
                 </li>
               </ul>
@@ -179,15 +188,31 @@ export default function TaskDetails() {
                 <li className="w-full flex mb-2">
                   <div className="w-[50%] font-semibold">Priority</div>
                   <div className="w-[50%]">
-                    <i
-                      className={`${
-                        TaskPriorityIcons[task?.priority!].icon
-                      } mr-2`}
-                      style={{
-                        color: TaskPriorityIcons[task?.priority!].background,
-                      }}
-                    />
-                    <span>{task?.priority || "None"}</span>
+                    <InlineEdit
+                      handleChange={handleTaskStateUpdate}
+                      editComponent={
+                        <Select
+                          selected={task.priority}
+                          options={TaskPriorityOptions}
+                          onChange={(v) => updateTaskField("priority", v.value)}
+                          isInline
+                          classname="w-full"
+                        />
+                      }
+                    >
+                      <>
+                        <i
+                          className={`${
+                            TaskPriorityIcons[task?.priority!].icon
+                          } mr-2`}
+                          style={{
+                            color:
+                              TaskPriorityIcons[task?.priority!].background,
+                          }}
+                        />
+                        <span>{task?.priority || "None"}</span>
+                      </>
+                    </InlineEdit>
                   </div>
                 </li>
                 <li className="w-full flex mb-2">
@@ -198,12 +223,34 @@ export default function TaskDetails() {
             </div>
           </div>
           <div className="acceptance-criteria-section mt-6">
-            <h2 className="font-semibold mb-2">Acceptance Criteria</h2>
-            <span className="text-[13px]">{task?.acceptanceCriteria}</span>
+            <h2 className="font-semibold mb-1">Acceptance Criteria</h2>
+            <div className="w-full">
+              <TextEditor
+                value={task?.acceptanceCriteria}
+                placeholder=" Add acceptance criteria..."
+                onSave={(val) =>
+                  updateTaskDetails(dispatch, taskState.id!, {
+                    ...task,
+                    acceptanceCriteria: val,
+                  })
+                }
+              />
+            </div>
           </div>
-          <div className="acceptance-criteria-section mt-6">
-            <h2 className="font-semibold mb-2">Description</h2>
-            <span className="text-[13px]">{task?.description}</span>
+          <div className="acceptance-criteria-section mt-6 w-full ">
+            <h2 className="font-semibold mb-1">Description</h2>
+            <div className="w-full">
+              <TextEditor
+                value={task?.description}
+                placeholder=" Add a description..."
+                onSave={(val) =>
+                  updateTaskDetails(dispatch, taskState.id!, {
+                    ...task,
+                    description: val,
+                  })
+                }
+              />
+            </div>
           </div>
         </div>
         <div className="w-[45%] border-l text-[13px] h-[calc(100%-82px)]">
