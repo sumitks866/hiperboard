@@ -58,8 +58,8 @@ export default function Select({
       <div className="w-full relative">
         <div
           className={`${
-            isInline ? "" : "px-2 border border-gray-400 min-h-9"
-          } w-full  flex items-center rounded-sm bg-gray-50 focus:bg-white  cursor-pointer`}
+            isInline ? "" : "px-2 border border-gray-300 min-h-9"
+          } w-full  flex items-center rounded-md cursor-pointer`}
           onClick={() => setIsOpen((pre) => !pre)}
         >
           {selectedOption ? (

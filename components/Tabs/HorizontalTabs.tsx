@@ -8,7 +8,7 @@ interface IProps {
 }
 
 export default function HorizontalTabs({ children, activeTab, onSelect }: IProps) {
-  const renderTabs = (): ReactElement[] | null | undefined => {
+  const renderTabs = (): ReactElement[] | null | undefined => { 
     return React.Children.map(children, (child) => {
       if (React.isValidElement(child) && child.type === Tab) {
         const tab = child as ReactElement<ITabProps>;
@@ -17,10 +17,10 @@ export default function HorizontalTabs({ children, activeTab, onSelect }: IProps
           <button
             key={tabKey}
             onClick={(e)=>onSelect(e,tabKey)}
-            className={`flex-1 py-2 ${
+            className={`flex-1 py-2 mx-1 rounded-md ${
               activeTab === tabKey
-                ? "bg-gray-300 font-semibold"
-                : "bg-[#f5f5f5] border-[#f5f5f5] hover:bg-gray-200 hover:border-gray-200"
+                ? "bg-white font-semibold shadow-sm"
+                : "border-white hover:bg-white hover:white"
             }`}
           >
             {tab.props.title}
@@ -50,7 +50,7 @@ export default function HorizontalTabs({ children, activeTab, onSelect }: IProps
 
   return (
     <div className="horizontal-tab-wrapper w-full h-full">
-      <nav className="horizontal-tab-tabs w-full flex">{renderTabs()}</nav>
+      <nav className="horizontal-tab-tabs w-full flex bg-[#f0f0f0] py-1">{renderTabs()}</nav>
       <div className="tab-content overflow-auto h-[calc(100%-35.5px)]">
         {renderActiveTab()}
       </div>

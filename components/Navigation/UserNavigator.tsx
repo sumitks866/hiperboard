@@ -29,7 +29,7 @@ export default function UserNavigator() {
     <div className="px-2 flex flex-col">
       <div className="font-bold px-4 flex items-center text-lg whitespace-no-wrap overflow-hidden overflow-ellipsis py-6">
         <img
-          src={avatarGenerator.generateRandomAvatar(user.username)}
+          src={avatarGenerator.generateRandomAvatar(user.email)}
           alt={user.name}
           className={`h-12 mr-4`}
         />

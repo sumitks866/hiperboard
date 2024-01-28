@@ -8,7 +8,6 @@ import Task from "./Task";
 import { TaskContextProvider } from "@/context/TaskContext";
 
 export default function Page() {
-  
   return (
     <AppLayout>
       <TaskContextProvider>

@@ -253,7 +253,7 @@ export default function TaskDetails() {
             </div>
           </div>
         </div>
-        <div className="w-[45%] border-l text-[13px] h-[calc(100%-82px)]">
+        <div className="w-[45%] bor text-[13px] h-[calc(100%-82px)]">
           <HorizontalTabs activeTab={activeTabKey} onSelect={handleTabSelect}>
             <Tab tabKey={0} title="Comments">
               <div className="p-4">

@@ -13,6 +13,8 @@ import {
   TaskPriorityIcons,
   ITask,
 } from "@/utils/types";
+import "react-quill/dist/quill.snow.css";
+import "react-quill/dist/quill.bubble.css";
 import isUndefined from "lodash/isUndefined";
 import { isValidString } from "@/utils/validation";
 import { useAppSelector } from "@/lib/store/store";
@@ -20,6 +22,8 @@ import { isEmpty, isNull } from "lodash";
 import { AvatarGenerator } from "random-avatar-generator";
 import { createTask } from "@/api/task";
 import { TaskPriorityOptions, TaskTypeOPtions } from "./Select/SelectOptions";
+const ReactQuill =
+  typeof window === "object" ? require("react-quill") : () => false;
 
 interface IProps {
   onCreateSuccess?: () => void;
@@ -181,13 +185,16 @@ export default function CreateTask({ onCreateSuccess }: IProps) {
           autoFocus
         />
 
-        <TextArea
-          id="task-description"
-          label="Description"
-          value={description}
-          onChange={(_, val) => setDescription(val)}
-          classname="py-2"
-        />
+        <div className="my-2">
+          <label htmlFor={"description"} className="block mb-2 font-semibold">
+            <span>Description</span>
+          </label>
+          <ReactQuill
+            theme="snow"
+            value={description}
+            onChange={setDescription}
+          />
+        </div>
 
         <div className="flex w-full justify-between">
           <Select

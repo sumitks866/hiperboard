@@ -97,7 +97,7 @@ export const TaskPriorityIcons: TaskPriorityWithIcon = {
   },
   [TaskPriority.MAJOR]: {
     icon: "fas fa-angle-double-up",
-    background: "#DAA520",
+    background: "red",
   },
   [TaskPriority.MEDIUM]: {
     icon: "fa fa-bars",
@@ -152,31 +152,31 @@ export const TaskStatusIcons: TaskStatusWithIcon = {
     background: "#FFC2D1",
     color: "#E0576E",
   },
-  [TaskStatus.DEVELOPMENT_COMPLETE]: {
-    icon: "fas fa-code-branch",
-    background: "#F3E5F5",
-    color: "#C4A5D3",
-  },
+  // [TaskStatus.DEVELOPMENT_COMPLETE]: {
+  //   icon: "fas fa-code-branch",
+  //   background: "#F3E5F5",
+  //   color: "#C4A5D3",
+  // },
   [TaskStatus.REJECTED]: {
     icon: "fas fa-times-circle",
     background: "#FFB3B3",
     color: "#FF6C6C",
   },
-  [TaskStatus.VERIFIED]: {
-    icon: "fas fa-flag-checkered",
-    background: "#C9DAF8",
-    color: "#829CE8",
-  },
-  [TaskStatus.MR_CREATED]: {
-    icon: "fas fa-random",
-    background: "#F0E68C",
-    color: "#DAA520",
-  },
-  [TaskStatus.MERGED]: {
-    icon: "fas fa-code-branch",
-    background: "#B5EAD7",
-    color: "#35836F",
-  },
+  // [TaskStatus.VERIFIED]: {
+  //   icon: "fas fa-flag-checkered",
+  //   background: "#C9DAF8",
+  //   color: "#829CE8",
+  // },
+  // [TaskStatus.MR_CREATED]: {
+  //   icon: "fas fa-random",
+  //   background: "#F0E68C",
+  //   color: "#DAA520",
+  // },
+  // [TaskStatus.MERGED]: {
+  //   icon: "fas fa-code-branch",
+  //   background: "#B5EAD7",
+  //   color: "#35836F",
+  // },
 };
 
 export type TaskTypeWithIcon = {
@@ -193,11 +193,11 @@ export const TaskTypeIcons: TaskTypeWithIcon = {
   },
   [TaskType.IMPROVEMENT]: {
     icon: "fas fa-tools",
-    color: "#FFD700", // Gold
+    color: "#1f5eff", // Gold
   },
   [TaskType.TASK]: {
     icon: "fas fa-tasks",
-    color: "#9AC1E1", // Light Blue
+    color: "#7c9ef7", // Light Blue
   },
   [TaskType.FEATURE]: {
     icon: "fas fa-star",

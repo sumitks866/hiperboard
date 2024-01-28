@@ -1,6 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import ProfileButton from "./ProfileButton";
 
 export default function HomepageHeader() {
   return (
@@ -14,9 +15,7 @@ export default function HomepageHeader() {
         />
       </Link>
 
-      <button className="bg-gray-800 text-white px-6 py-2 rounded-full">
-        Login
-      </button>
+      <ProfileButton />
     </header>
   );
 }

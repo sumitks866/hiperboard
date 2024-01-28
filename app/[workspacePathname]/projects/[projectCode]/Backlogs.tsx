@@ -8,18 +8,17 @@ import React, { useEffect, useState } from "react";
 
 export default function Backlogs() {
   const { activeProject } = useAppSelector((state) => state.projectReducer);
-  const [projectList, setProjectList] = useState<ITask[]>([]);
+  const [taskList, setTaskList] = useState<ITask[]>([]);
 
   const loadTasks = async () => {
     if (isNull(activeProject)) return;
     try {
       const res = await getTasks(activeProject?.id);
-      setProjectList(res.data);
+      setTaskList(res.data);
     } catch (err) {
       console.log(err);
     }
   };
-
 
   useEffect(() => {
     loadTasks();
@@ -31,7 +30,7 @@ export default function Backlogs() {
       <h2 className="py-6 text-xl font-semibold">Backlogs</h2>
       <hr className="border-gray-400" />
       <div className="w-full mt-4">
-        {projectList.map((task) => (
+        {taskList.map((task) => (
           <BacklogIssueCard key={task.taskCode} task={task} />
         ))}
       </div>

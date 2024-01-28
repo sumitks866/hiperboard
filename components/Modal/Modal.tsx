@@ -25,6 +25,7 @@ export default function Modal({ isOpen, onClose, children }: ModalProps) {
           onClick={onClose}
           className="absolute top-2 right-4 text-gray-400 hover:text-gray-500 focus:outline-none"
         >
+          
           <i className="fa fa-times" aria-hidden="true" />
         </button>
       </div>

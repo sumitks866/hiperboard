@@ -19,7 +19,6 @@ export default function TextEditor({ value, placeholder, onSave }: IProps) {
     if (value) setLocalValue(value);
   }, [value]);
 
-  console.log(localValue);
   return (
     <div className="w-full">
       {isEditing ? (

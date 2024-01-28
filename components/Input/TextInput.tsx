@@ -51,7 +51,7 @@ export default function TextInput({
         placeholder={placeholder}
         className={`${
           isInline ? "focus:outline-none" : "border px-2 py-2 focus:bg-white"
-        }  border-gray-400 w-full rounded-sm bg-gray-50 `}
+        }  border-gray-300 w-full rounded-sm`}
         autoFocus={autoFocus}
       />
       {validated === "error" && (

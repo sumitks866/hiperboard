@@ -5,6 +5,8 @@ import Modal from "../Modal/Modal";
 import Link from "next/link";
 import Image from "next/image";
 import CreateTask from "../CreateTask";
+import ProfileButton from "./ProfileButton";
+import NotificationButton from "./NotificationButton";
 
 export default function Header() {
   const [isCreateTaskOpen, setIsCreateTaskOpen] = useState<boolean>(false);
@@ -17,7 +19,7 @@ export default function Header() {
       >
         <CreateTask onCreateSuccess={() => setIsCreateTaskOpen(false)} />
       </Modal>
-      <header className="bg-gray-800 w-full text-[14px] h-16 flex items-center fixed top-0 z-50 text-white">
+      <header className="bg-gray-700 w-full text-[12px] h-14 flex items-center fixed top-0 z-50 text-white">
         <div className="font-bold text-lg w-1/6 h-full flex items-center pl-8">
           <Image
             src="/monoWhiteInverted-DefaultLogo-200px.png"
@@ -27,13 +29,20 @@ export default function Header() {
           />
         </div>
 
-        <div className="flex flex-1 h-full items-center">
+        <div className="flex flex-1 justify-end h-full items-center pr-24">
           <button
-            className="mx-4 hover:bg-black h-fit px-4 py-2 rounded-md"
+            className=" hover:bg-black h-fit py-1 px-2 rounded-md border border-gray-400 hover:border-black"
             onClick={() => setIsCreateTaskOpen(true)}
           >
-            Create
+            <i className={`mr-2 fas fa-plus`}></i>
+            <span>New Task</span>
           </button>
+          <div className="mx-4 flex justify-center items-center">
+            <NotificationButton />
+          </div>
+          <div className="pl-4 border-l border-gray-500">
+            <ProfileButton />
+          </div>
         </div>
 
         {/* </div> */}

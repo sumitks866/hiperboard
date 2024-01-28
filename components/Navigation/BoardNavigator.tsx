@@ -47,8 +47,8 @@ export default function BoardNavigator() {
             key={option.name}
           >
             <li
-              className={`py-2 my-1 rounded-md px-2 text-[13px] hover:bg-gray-200 ${
-                view === option.route ? "bg-gray-300 hover:bg-gray-300" : ""
+              className={`py-2 my-1 rounded-md px-2 text-[13px] hover:bg-gray-100 ${
+                view === option.route ? "bg-gray-200 hover:bg-gray-200 font-semibold" : ""
               }`}
             >
               <i className={`mr-2 ${option.icon}`}></i>

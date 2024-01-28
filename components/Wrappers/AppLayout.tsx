@@ -74,7 +74,7 @@ export default function AppLayout({ children }: IProps) {
   };
 
   return (
-    <div className="flex h-screen pt-16 text-[12px]">
+    <div className="flex h-screen pt-14 text-[12px]">
       <Header />
       <NavigationWrapper>{getNavigatorComponent()}</NavigationWrapper>
       <main className="flex flex-1 overflow-y-auto">

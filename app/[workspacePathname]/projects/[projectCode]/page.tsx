@@ -5,12 +5,13 @@ import React, { useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import ProjectSummary from "./ProjectSummary";
 import Backlogs from "./Backlogs";
-import { useQuery } from "react-query";
 import { getProjectByCode } from "@/api/project";
 import { isNull, isUndefined } from "lodash";
 import { useDispatch } from "react-redux";
 import { AppDispatch, useAppSelector } from "@/lib/store/store";
 import { setActiveProject } from "@/lib/store/projects/projectSlice";
+import AgileBoard from "./AgileBoard";
+import { TaskContextProvider } from "@/context/TaskContext";
 
 export default function Project({
   params,
@@ -26,7 +27,7 @@ export default function Project({
       case "summary":
         return <ProjectSummary project={activeProject!} />;
       case "board":
-        return <div>AgileBoard</div>;
+        return <AgileBoard project={activeProject!} />;
       case "backlogs":
         return <Backlogs />;
       default:
@@ -36,7 +37,7 @@ export default function Project({
 
   return (
     <AppLayout>
-      <div className="w-full mx-auto h-full flex bg-white">
+      <div className="w-full mx-auto h-full flex bg-gray-50">
         {isNull(activeProject) ? <div>Loading...</div> : getRenderComponent()}
       </div>
     </AppLayout>

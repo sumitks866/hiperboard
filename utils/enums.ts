@@ -26,9 +26,9 @@ export enum TaskStatus {
   ON_QA = "On QA",
   DONE = "Done",
   DEFERRED = "Deferred",
-  DEVELOPMENT_COMPLETE = "Dev Complete",
+  // DEVELOPMENT_COMPLETE = "Dev Complete",
   REJECTED = "Rejected",
-  VERIFIED = "Verified",
-  MR_CREATED = "MR Created",
-  MERGED = "Merged",
+  // VERIFIED = "Verified",
+  // MR_CREATED = "MR Created",
+  // MERGED = "Merged",
 }

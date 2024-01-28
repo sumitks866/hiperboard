@@ -37,7 +37,7 @@ export default function WorkspaceNavigator() {
           >
             <li
               className={`py-2 my-1 rounded-md px-2 text-[13px] hover:bg-gray-200 ${
-                view === option.route ? "bg-gray-300 hover:bg-gray-300" : ""
+                view === option.route ? "bg-gray-300 hover:bg-gray-300 font-semibold" : ""
               }`}
             >
               <i className={`mr-2 ${option.icon}`}></i>
