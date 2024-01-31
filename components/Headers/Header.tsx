@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 import Modal from "../Modal/Modal";
-import Link from "next/link";
 import Image from "next/image";
 import CreateTask from "../CreateTask";
 import ProfileButton from "./ProfileButton";

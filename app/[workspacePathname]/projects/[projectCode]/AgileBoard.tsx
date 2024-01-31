@@ -88,10 +88,10 @@ export default function AgileBoard({ project }: IProps) {
 
   return (
     <DragDropContext onDragEnd={handleDragEnd}>
-      <div className="w-full bg-gray-50 h-full flex overflow-x-auto">
+      <div className="w-full h-full flex overflow-x-auto">
         {taskStatus.map((status, id) => (
-          <div key={status} className="mx-4 w-[300px] flex-shrink-0">
-            <div className="w-full py-2 font-semibold text-[13px] border-b">
+          <div key={status} className="mx-4 w-[300px] flex-shrink-0 bg-gray-100">
+            <div className="w-full py-2 font-semibold text-[13px] border-b bg-white">
               <i
                 className={`${TaskStatusIcons[status].icon} mt-1 mr-2 font-medium`}
                 style={{
@@ -112,12 +112,12 @@ export default function AgileBoard({ project }: IProps) {
                 <div
                   {...provided.droppableProps}
                   ref={provided.innerRef}
-                  className={`w-full rounded-md relative ${
+                  className={`w-full px-2 rounded-md relative ${
                     snapshot.isDraggingOver ? "" : ""
                   }`}
                 >
                   {snapshot.isDraggingOver && (
-                    <div className="absolute top-0 left-0 w-full h-full rounded-md bg-gray-200 bg-opacity-25 z-20"></div>
+                    <div className="absolute top-0 left-0 w-full h-full rounded-md bg-gray-300 bg-opacity-25 z-20"></div>
                   )}
                   {(groupedTask[status] || []).map((task, id) => (
                     <Draggable key={task.id} draggableId={task.id} index={id}>

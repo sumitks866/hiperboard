@@ -16,8 +16,8 @@ export default function TaskCard({ task }: IProps) {
     <Link
       href={`/${params.workspacePathname}/projects/${params.projectCode}/tasks/${task.taskCode}`}
     >
-      <div className="bg-white p-4 text-[11px] rounded-md w-full border hover:bg-gray-50 hover:shadow-sm">
-        <div className="text-gray-600 font-medium">{task.taskCode}</div>
+      <div className="bg-white p-4 text-[12px] rounded-md w-full border hover:bg-gray-50 hover:shadow-sm">
+        <div className="text-gray-700">{task.taskCode}</div>
         <div className="font-medium mt-1 mb-2 text-[13px] flex items-start">
           <i
             className={`${TaskTypeIcons[task?.type!].icon} mt-1 mr-2`}

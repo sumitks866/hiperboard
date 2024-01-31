@@ -34,7 +34,7 @@ export default function Page() {
   };
 
   useEffect(() => {
-    getCompanies(user?.companyRoles.map((r) => r.companyId));
+    getCompanies(user?.companyRoles.map((r) => r.companyId)); 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user, dispatch]);
 

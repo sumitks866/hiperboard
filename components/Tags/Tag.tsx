@@ -3,23 +3,34 @@ import React from "react";
 interface IProps {
   value: string;
   isEditing?: boolean;
-  onClose?: () => void;
+  isHighlighted?: boolean;
+  onClose?: (value: string) => void;
 }
 
-export default function Tag({ value, isEditing, onClose }: IProps) {
+export default function Tag({
+  value,
+  isEditing,
+  onClose,
+  isHighlighted,
+}: IProps) {
   return (
-    <span className="py-[2px] px-[4px] rounded-sm cursor-pointer bg-gray-100 hover:bg-gray-200">
-      <span className=" text-violet-700">{value}</span>
+    <div
+      className={`py-[2px] px-[6px] rounded-md cursor-pointer flex ${
+        isHighlighted ? "bg-gray-200" : "bg-gray-100"
+      } hover:bg-gray-200`}
+      onClick={(e) => e.stopPropagation()}
+    >
+      <div className=" text-violet-700">{value}</div>
       {isEditing && (
         <button
           className="hover:text-red-600 font-semibold cursor-pointer ml-[4px]"
           onClick={() => {
-            onClose && onClose();
+            onClose && onClose(value);
           }}
         >
           ×
         </button>
       )}
-    </span>
+    </div>
   );
 }

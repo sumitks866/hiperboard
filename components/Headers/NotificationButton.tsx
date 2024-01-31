@@ -6,8 +6,6 @@ export default function NotificationButton() {
   const { activeUser } = useAppSelector((state) => state.authReducer);
   const { user } = useAppSelector((state) => state.globalReducer);
 
-  console.log({ activeUser, user });
-
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 

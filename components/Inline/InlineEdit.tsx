@@ -49,7 +49,9 @@ export default function InlineEdit({
 
   return (
     <div
-      className="w-full flex justify-between items-center hover:bg-gray-50"
+      className={`w-full flex justify-between rounded-sm items-center ${
+        isEditing ? "border border-gray-300 px-2" : "hover:bg-gray-50"
+      }`}
       ref={ref}
     >
       {isEditing ? (

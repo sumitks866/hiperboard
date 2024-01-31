@@ -6,6 +6,7 @@ import { login } from "@/lib/store/auth/authSlice";
 import { useDispatch } from "react-redux";
 import { AppDispatch, useAppSelector } from "@/lib/store/store";
 import { isNull } from "lodash";
+import { useSearchParams } from "next/navigation";
 
 export default function Login() {
   const [email, setEmail] = useState<string>("");
@@ -18,11 +19,15 @@ export default function Login() {
     (state) => state.authReducer
   );
 
+  const searchParams = useSearchParams();
+  const redirectUri = searchParams.get("redirectUri");
+
   useEffect(() => {
     if (!isNull(activeUser)) {
-      window.location.href = "/home";
+      if (!isNull(redirectUri)) window.location.href = redirectUri;
+      else window.location.href = "/home";
     }
-  }, [activeUser]);
+  }, [activeUser, redirectUri]);
 
   const handleLogin = async () => {
     if (loginStep === 1) {

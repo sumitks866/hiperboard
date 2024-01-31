@@ -33,6 +33,7 @@ export default function Select({
 }: ISelectProps) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [selectedOption, setSelectedOption] = useState<SelectOption<any>>();
+  const [query, setQuery] = useState<string>("")
 
   const handleSelect = (option: SelectOption<any>) => {
     onChange && onChange(option);

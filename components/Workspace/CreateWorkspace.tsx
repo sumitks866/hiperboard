@@ -38,7 +38,7 @@ export default function CreateWorkspace({ onCreateSuccess }: IProps) {
   return (
     <div className="py-8 px-12 max-w-[600px]">
       <h2 className="font-semibold text-[20px]">Create New workspace</h2>
-      <div className="mb-4">
+      <div className="mb-4 mt-2">
         Create a shared space with your team members to collaborate on various
         projects. Invite your peers to work with you in your workspace. Projects
         in one workspace cannot be accessed in others.

@@ -22,6 +22,7 @@ import {
 } from "@/context/TaskReducer";
 import { mockComments } from "@/utils/mock";
 import {
+  ITask,
   TaskPriorityIcons,
   TaskStatusIcons,
   TaskTypeIcons,
@@ -66,9 +67,14 @@ export default function TaskDetails() {
   if (taskState.isLoading) return <div>Loading...</div>;
   if (isUndefined(taskState)) return <div>Task not found </div>;
 
-  const handleTaskStateUpdate = () => {
-    console.log("updating");
-    updateTaskDetails(dispatch, taskState.id!, task);
+  const handleTaskStateUpdate = (_task?: Partial<ITask>) => {
+    if (isUndefined(_task)) {
+      updateTaskDetails(dispatch, taskState.id!, task);
+    } else {
+      if (!_task.id) return;
+      updateTaskDetails(dispatch, taskState.id!, _task);
+      setTask(_task);
+    }
   };
 
   const updateTaskField = (field: ITaskStateFields, value: any) => {
@@ -78,10 +84,25 @@ export default function TaskDetails() {
   return (
     <div className="w-full overflow-hidden h-full">
       <div className="w-full py-6 px-4">
-        <h1 className="text-[22px]">
-          <span className="font-semibold mr-2">{task?.taskCode}</span>
-          <span>{task?.title}</span>
-        </h1>
+        <div className="text-[22px] flex">
+          <div className="font-semibold mr-2 w-fit">{task?.taskCode}</div>
+          <div className="flex-1">
+            <InlineEdit
+              handleChange={handleTaskStateUpdate}
+              editComponent={
+                <TextInput
+                  value={task?.title}
+                  onChange={(_, v) => updateTaskField("title", v)}
+                  isInline
+                  autoFocus
+                  classname="w-full"
+                />
+              }
+            >
+              <h1>{task?.title}</h1>
+            </InlineEdit>
+          </div>
+        </div>
       </div>
       <hr />
       <div className="w-full flex h-full">
@@ -143,7 +164,12 @@ export default function TaskDetails() {
                 <li className="w-full flex mb-2">
                   <div className="w-[50%] font-semibold">Labels</div>
                   <div className="w-[50%]">
-                    <TagGroup tagsList={["frontent", "qa", "important"]} />
+                    <TagGroup
+                      tagsList={task.labels || []}
+                      onChange={(tags) =>
+                        handleTaskStateUpdate({ ...task, labels: tags })
+                      }
+                    />
                   </div>
                 </li>
 
@@ -253,7 +279,7 @@ export default function TaskDetails() {
             </div>
           </div>
         </div>
-        <div className="w-[45%] bor text-[13px] h-[calc(100%-82px)]">
+        <div className="w-[45%] bor text-[13px] h-[calc(100%-82px)] border-l border-gray-300">
           <HorizontalTabs activeTab={activeTabKey} onSelect={handleTabSelect}>
             <Tab tabKey={0} title="Comments">
               <div className="p-4">

@@ -4,27 +4,24 @@ import { validateToken } from "./utils/validateToken";
 
 export async function middleware(request: NextRequest) {
   const jwt = request.cookies.get("jwt");
-  const { url } = request;
+  const { pathname } = request.nextUrl;
+  const originalUrl = request.nextUrl.clone();
 
-  // if (
-  //   request.nextUrl.pathname == "/login" ||
-  //   request.nextUrl.pathname == "/signup"
-  // )
-  //   return NextResponse.next();
+  if (["/", "/login", "/signup"].includes(pathname)) return NextResponse.next();
 
-  if (jwt?.value) {
-    if (await validateToken(jwt.value)) {
-      //
-    } else {
-      return NextResponse.redirect(new URL("/login", url));
-    }
+  const isValidToken = jwt?.value ? await validateToken(jwt.value) : false;
+
+  if (isValidToken) {
+    return NextResponse.next();
   } else {
-    return NextResponse.redirect(new URL("/login", url));
+    const url = new URL("/login", request.url);
+    url.searchParams.set("redirectUri", originalUrl.toString());
+    return NextResponse.redirect(url);
   }
-
-  //   return response;
 }
 
 export const config = {
-  matcher: ["/home", "/projects/:path*", "/taks/:path*"],
+  matcher: [
+    "/((?!_next|login|signup|icons8-google-color|logobanner200px.png).*)(.+)",
+  ],
 };

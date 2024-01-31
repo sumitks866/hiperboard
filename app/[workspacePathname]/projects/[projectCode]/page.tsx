@@ -37,7 +37,7 @@ export default function Project({
 
   return (
     <AppLayout>
-      <div className="w-full mx-auto h-full flex bg-gray-50">
+      <div className="w-full mx-auto h-full flex bg-white">
         {isNull(activeProject) ? <div>Loading...</div> : getRenderComponent()}
       </div>
     </AppLayout>
