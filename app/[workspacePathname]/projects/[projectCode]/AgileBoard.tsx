@@ -90,7 +90,10 @@ export default function AgileBoard({ project }: IProps) {
     <DragDropContext onDragEnd={handleDragEnd}>
       <div className="w-full h-full flex overflow-x-auto">
         {taskStatus.map((status, id) => (
-          <div key={status} className="mx-4 w-[300px] flex-shrink-0 bg-gray-100">
+          <div
+            key={status}
+            className="mx-4 w-[300px] flex-shrink-0 flex flex-col bg-gray-100"
+          >
             <div className="w-full py-2 font-semibold text-[13px] border-b bg-white">
               <i
                 className={`${TaskStatusIcons[status].icon} mt-1 mr-2 font-medium`}
@@ -112,9 +115,7 @@ export default function AgileBoard({ project }: IProps) {
                 <div
                   {...provided.droppableProps}
                   ref={provided.innerRef}
-                  className={`w-full px-2 rounded-md relative ${
-                    snapshot.isDraggingOver ? "" : ""
-                  }`}
+                  className={`w-full px-2 rounded-md relative flex-1 overflow-auto`}
                 >
                   {snapshot.isDraggingOver && (
                     <div className="absolute top-0 left-0 w-full h-full rounded-md bg-gray-300 bg-opacity-25 z-20"></div>

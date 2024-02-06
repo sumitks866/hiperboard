@@ -42,7 +42,7 @@ export default function BacklogIssueCard({ task }: IProps) {
           <span className="mx-4 text-blue-700 font-u">
             <span>{task.taskCode}</span>
           </span>
-          <span className="">{task.title}</span>
+          <span className="font-medium">{task.title}</span>
         </div>
 
         <div className="flex items-center w-fit">

@@ -30,7 +30,8 @@
     "react-dom": "^18",
     "react-query": "^3.39.3",
     "react-quill": "^2.0.0",
-    "react-redux": "^9.0.4"
+    "react-redux": "^9.0.4",
+    "react-textarea-autosize": "^8.5.3"
   },
   "devDependencies": {
     "@types/node": "^20",

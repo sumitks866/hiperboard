@@ -22,8 +22,22 @@ export const getTasks = (projectId: string) => {
 };
 
 export const updateTask = (taskId: string, request: IUpdateTaskRequest) => {
-  const url = `/task/${taskId}`; // Assuming your API endpoint for updating a task includes the taskId in the URL
+  const url = `/task/${taskId}`;
   return baseAPI.put(url, request, {
     headers: { "Content-Type": "application/json" },
   });
+};
+
+export const getCommentsForTask = async (
+  taskId: string,
+  page: number = 1,
+  pageSize: number = 10
+) => {
+  const url = `task/${taskId}/comments?page=${page}&pageSize=${pageSize}`;
+  return baseAPI.get(url);
+};
+
+export const getActivityLogs = async (taskId: string) => {
+  const url = `task/${taskId}/activity`;
+  return baseAPI.get(url);
 };

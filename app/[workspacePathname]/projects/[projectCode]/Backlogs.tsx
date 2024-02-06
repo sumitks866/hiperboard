@@ -26,10 +26,10 @@ export default function Backlogs() {
   }, [activeProject]);
 
   return (
-    <div className="w-full mx-auto h-full overflow-auto flex flex-col px-8">
+    <div className="w-full mx-auto h-full flex flex-col px-8">
       <h2 className="py-6 text-xl font-semibold">Backlogs</h2>
       {/* <hr className="border-gray-400" /> */}
-      <div className="w-full flex-1 px-24 py-12 bg-gray-100">
+      <div className="w-full flex-1 px-24 py-12 bg-gray-100 overflow-auto ">
         {taskList.map((task) => (
           <BacklogIssueCard key={task.taskCode} task={task} />
         ))}

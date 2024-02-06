@@ -1,5 +1,5 @@
 import { TaskPriority } from "./enums";
-import { ITask } from "./types";
+import { IEvent, ITask, ITaskActivity } from "./types";
 
 interface IGroupedTasks {
   [key: string]: ITask[];

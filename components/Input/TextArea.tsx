@@ -37,7 +37,7 @@ export default function TextArea({
         onChange={(e) => onChange && onChange(e, e.target.value)}
         placeholder={placeholder}
         className={`border border-gray-400 w-full px-2 py-2 rounded-sm bg-gray-50 focus:bg-white`}
-        rows={8}
+        rows={18}
         autoFocus={autoFocus}
       />
       {validated === "error" && (

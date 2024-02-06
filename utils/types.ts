@@ -1,4 +1,4 @@
-import { TaskPriority, TaskStatus, TaskType } from "./enums";
+import { ActivityType, TaskPriority, TaskStatus, TaskType } from "./enums";
 
 export interface SelectOption<T> {
   value: T;
@@ -51,9 +51,25 @@ export interface IComment {
   id: string;
   taskId: string;
   content: string;
-  userId: string;
+  userEmail: string;
   createdAt: string;
   editedAt?: string;
+}
+
+export interface ITaskActivity {
+  _id: string;
+  taskId: string;
+  type: ActivityType;
+  actorEmail: string;
+  timestamp: string;
+  data: any;
+}
+
+export interface IEvent {
+  id: string;
+  content: React.ReactNode;
+  eventIcon?: React.ReactNode;
+  time?: string;
 }
 
 export interface ITask {
@@ -76,7 +92,6 @@ export interface ITask {
   createdAt: string;
   updatedAt: string;
   relatedIssuesCode: string[];
-  commentsId: string[];
 }
 
 type TaskPriorityWithIcon = {

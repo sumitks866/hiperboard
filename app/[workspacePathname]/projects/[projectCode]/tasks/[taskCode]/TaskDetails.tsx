@@ -30,6 +30,7 @@ import {
 import { isUndefined } from "lodash";
 import { AvatarGenerator } from "random-avatar-generator";
 import React, { useContext, useEffect, useState } from "react";
+import TaskTimeline from "./TaskTimeline";
 
 export function UserDetails(userId: string): React.JSX.Element {
   const avatarGenerator = new AvatarGenerator();
@@ -282,8 +283,8 @@ export default function TaskDetails() {
         <div className="w-[45%] bor text-[13px] h-[calc(100%-82px)] border-l border-gray-300">
           <HorizontalTabs activeTab={activeTabKey} onSelect={handleTabSelect}>
             <Tab tabKey={0} title="Comments">
-              <div className="p-4">
-                <Comments comments={mockComments} />
+              <div className="p-4 w-full h-full">
+                {task && task.id && <Comments taskId={task.id} />}
               </div>
             </Tab>
 
@@ -317,7 +318,7 @@ export default function TaskDetails() {
             </Tab>
 
             <Tab tabKey={2} title="Timelines">
-              <div>Timelines</div>
+              {task && <TaskTimeline taskId={task.id!} />}
             </Tab>
           </HorizontalTabs>
         </div>

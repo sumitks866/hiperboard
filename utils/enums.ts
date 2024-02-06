@@ -32,3 +32,13 @@ export enum TaskStatus {
   // MR_CREATED = "MR Created",
   // MERGED = "Merged",
 }
+
+export enum ActivityType {
+  TaskCreated = "task_created",
+  AssigneeAdded = "assignee_added",
+  DescriptionChanged = "description_changed",
+  PriorityChanged = "priority_changed",
+  StatusChanged = "status_changed",
+  RelatedTaskAdded = "related_task_added",
+  CommentAdded = "comment_added",
+}

@@ -45,7 +45,7 @@ export default function HorizontalTabs({
         const { tabKey } = tab.props;
         if (tabKey === activeTab) {
           return (
-            <div key={tabKey} className="tab-content">
+            <div key={tabKey} className="tab-content h-full">
               {tab.props.children}
             </div>
           );
