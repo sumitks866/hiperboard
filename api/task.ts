@@ -16,8 +16,23 @@ export const getTaskByCode = (projectId: string, taskCode: string) => {
   return baseAPI.get(url);
 };
 
-export const getTasks = (projectId: string) => {
-  const url = `/task/${projectId}`;
+export const getTasks = (
+  projectId: string,
+  queries?: { [key: string]: string | string[] }
+) => {
+  const queryParams = new URLSearchParams();
+
+  for (const [key, value] of Object.entries(queries || {})) {
+    if (Array.isArray(value)) {
+      value.forEach((item) =>
+        queryParams.append(key, encodeURIComponent(item))
+      );
+    } else {
+      queryParams.append(key, value);
+    }
+  }
+  const url = `/task/${projectId}?${queryParams.toString()}`;
+
   return baseAPI.get(url);
 };
 

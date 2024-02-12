@@ -8,6 +8,7 @@ interface IProps {
   classname?: string;
   readonly?: boolean;
   onChange?: (tags: string[]) => void;
+  onTagClick?: (tag: string) => void;
 }
 
 export default function TagGroup({
@@ -15,6 +16,7 @@ export default function TagGroup({
   classname,
   readonly = false,
   onChange,
+  onTagClick,
 }: IProps) {
   const [localTags, setLocalTags] = useState<string[]>([]);
   const [isEditing, setIsEditing] = useState<boolean>(false);
@@ -75,6 +77,7 @@ export default function TagGroup({
                   onClose={(value) =>
                     setLocalTags((pre) => pre.filter((t) => t !== value))
                   }
+                  onClick={onTagClick}
                 />
               </div>
             ))}

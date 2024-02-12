@@ -1,5 +1,6 @@
 import { IProject } from "@/utils/types";
 import React from "react";
+import Activities from "./Activities";
 
 interface IProps {
   project: IProject;
@@ -16,7 +17,7 @@ export default function ProjectSummary({ project }: IProps) {
       </div>
       <hr />
       <div className="w-full flex h-full">
-        <div className="w-[30%] h-[calc(100%-82px)] overflow-y-auto py-4 px-6 text-[13px]">
+        <div className="w-[50%] h-[calc(100%-82px)] overflow-y-auto py-4 px-6 text-[13px]">
           <ul className="w-full">
             <li className="w-full flex mb-8 items-center">
               <div className="w-[50%] font-semibold">Name</div>
@@ -54,7 +55,9 @@ export default function ProjectSummary({ project }: IProps) {
             </li>
           </ul>
         </div>
-        <div className="w-[70%] h-[calc(100%-82px)] overflow-y-auto py-4 px-6 border-l"></div>
+        <div className="w-[50%] h-[calc(100%-82px)] overflow-y-auto border-l">
+          <Activities projectId={project.id} />
+        </div>
       </div>
     </div>
   );

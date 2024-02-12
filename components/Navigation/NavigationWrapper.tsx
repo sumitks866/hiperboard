@@ -6,7 +6,7 @@ interface IProps {
 
 export default function NavigationWrapper({ children }: IProps) {
   return (
-    <aside className="bg-gray-50 w-[15%] p-2 shadow-md">
+    <aside className="bg-gray-50 w-[15%] p-2 shadow-md border-r">
       {children}
     </aside>
   );

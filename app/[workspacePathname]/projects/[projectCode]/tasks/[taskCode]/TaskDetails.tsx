@@ -31,6 +31,8 @@ import { isUndefined } from "lodash";
 import { AvatarGenerator } from "random-avatar-generator";
 import React, { useContext, useEffect, useState } from "react";
 import TaskTimeline from "./TaskTimeline";
+import { useRouter } from "next/router";
+import { useParams } from "next/navigation";
 
 export function UserDetails(userId: string): React.JSX.Element {
   const avatarGenerator = new AvatarGenerator();
@@ -48,6 +50,8 @@ export function UserDetails(userId: string): React.JSX.Element {
 }
 
 export default function TaskDetails() {
+  // const router = useRouter();
+  const params = useParams();
   const [activeTabKey, setActiveTabKey] = useState<string | number>(0);
   const [task, setTask] = useState<Partial<ITaskState>>(initialTaskState);
 
@@ -170,6 +174,12 @@ export default function TaskDetails() {
                       onChange={(tags) =>
                         handleTaskStateUpdate({ ...task, labels: tags })
                       }
+                      onTagClick={(val) => {
+                        window.open(
+                          `${window.location.origin}/${params.workspacePathname}/projects/${params.projectCode}?view=issues&label=${val}`,
+                          "_blank"
+                        );
+                      }}
                     />
                   </div>
                 </li>

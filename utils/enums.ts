@@ -42,3 +42,15 @@ export enum ActivityType {
   RelatedTaskAdded = "related_task_added",
   CommentAdded = "comment_added",
 }
+
+export enum ReleaseStatusEnum {
+  Planning = "Planning",
+  InProgress = "In Progress",
+  Completed = "Completed",
+}
+
+export enum ReleaseTypeEnum {
+  Major = "Major",
+  Minor = "Minor",
+  Patch = "Patch",
+}

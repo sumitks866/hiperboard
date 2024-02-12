@@ -29,8 +29,8 @@ interface IProps {
   onCreateSuccess?: () => void;
 }
 
-const getProjectLabel = (project: IProject | undefined) => {
-  return isUndefined(project) ? "" : `${project.name} (${project.code})`;
+export const getProjectLabel = (project: IProject | undefined) => {
+  return !project ? "" : `${project.name} (${project.code})`;
 };
 
 const UserSelectCard = (user: IUser): React.ReactNode => {

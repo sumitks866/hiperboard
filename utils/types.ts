@@ -1,4 +1,11 @@
-import { ActivityType, TaskPriority, TaskStatus, TaskType } from "./enums";
+import {
+  ActivityType,
+  ReleaseStatusEnum,
+  ReleaseTypeEnum,
+  TaskPriority,
+  TaskStatus,
+  TaskType,
+} from "./enums";
 
 export interface SelectOption<T> {
   value: T;
@@ -92,6 +99,17 @@ export interface ITask {
   createdAt: string;
   updatedAt: string;
   relatedIssuesCode: string[];
+}
+
+export interface IRelease {
+  version: string;
+  notes?: string;
+  targetTasks: string[];
+  dueDate: string;
+  labels?: string[];
+  status: ReleaseStatusEnum;
+  type?: ReleaseTypeEnum;
+  projectId: string;
 }
 
 type TaskPriorityWithIcon = {

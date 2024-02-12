@@ -1,4 +1,9 @@
-import { TaskPriority, TaskStatus, TaskType } from "@/utils/enums";
+import {
+  ReleaseTypeEnum,
+  TaskPriority,
+  TaskStatus,
+  TaskType,
+} from "@/utils/enums";
 import {
   SelectOption,
   TaskPriorityIcons,
@@ -65,3 +70,11 @@ export const TaskStatusOptions: SelectOption<TaskStatus>[] = Object.values(
     ),
   } as SelectOption<TaskStatus>;
 });
+
+export const ReleaseTypeOptions: SelectOption<ReleaseTypeEnum>[] =
+  Object.values(ReleaseTypeEnum).map((value) => {
+    return {
+      value,
+      label: value,
+    } as SelectOption<ReleaseTypeEnum>;
+  });

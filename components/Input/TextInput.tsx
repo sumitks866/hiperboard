@@ -13,6 +13,7 @@ interface ITextInputProps {
   autoFocus?: boolean;
   fixedValue?: string;
   isInline?: boolean;
+  disabled?: boolean;
 }
 
 export default function TextInput({
@@ -28,6 +29,7 @@ export default function TextInput({
   autoFocus,
   fixedValue = "",
   isInline = false,
+  disabled,
 }: ITextInputProps) {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.value.startsWith(fixedValue)) {
@@ -51,8 +53,9 @@ export default function TextInput({
         placeholder={placeholder}
         className={`${
           isInline ? "focus:outline-none" : "border px-2 py-2 focus:bg-white"
-        }  border-gray-300 w-full rounded-sm`}
+        }  border-gray-300 w-full rounded-md`}
         autoFocus={autoFocus}
+        disabled={disabled}
       />
       {validated === "error" && (
         <span className="text-red-600 text-xs pt-2">{errorMsg || ""}</span>

@@ -38,3 +38,8 @@ export const getProjectsByWorkspacePathname = async (pathname: string) => {
   const url = `/project/pathname/${pathname}`;
   return baseAPI.get(url);
 };
+
+export const getProjectActivities = async (projectId: string) => {
+  const url = `/project/${projectId}/activity`;
+  return baseAPI.get(url);
+};

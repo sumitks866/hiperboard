@@ -12,6 +12,8 @@ import { AppDispatch, useAppSelector } from "@/lib/store/store";
 import { setActiveProject } from "@/lib/store/projects/projectSlice";
 import AgileBoard from "./AgileBoard";
 import { TaskContextProvider } from "@/context/TaskContext";
+import Issues from "./Issues";
+import Releases from "./Releases";
 
 export default function Project({
   params,
@@ -30,6 +32,10 @@ export default function Project({
         return <AgileBoard project={activeProject!} />;
       case "backlogs":
         return <Backlogs />;
+      case "issues":
+        return <Issues />;
+      case "releases":
+        return <Releases />;
       default:
         return <ProjectSummary project={activeProject!} />;
     }

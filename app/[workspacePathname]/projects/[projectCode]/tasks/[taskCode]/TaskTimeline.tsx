@@ -34,12 +34,9 @@ export default function TaskTimeline({ taskId }: IProps) {
     [data, data?.data]
   );
 
-  console.log({ events });
-
   return (
-    <div className="w-full h-full p-4 bg-gray-50 flex flex-col">
-      {/* <h1 className="mb-6 text-[18px] px-12 font-semibold">Activity Log</h1> */}
-      <div className="mt-8 px-12 mx-auto overflow-y-auto">
+    <div className="w-full h-full p-4 bg-gray-50 flex flex-col overflow-y-auto">
+      <div className="mt-8 px-12 mx-auto w-full">
         <Timeline events={events} />
       </div>
     </div>

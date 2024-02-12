@@ -5,6 +5,7 @@ interface IProps {
   isEditing?: boolean;
   isHighlighted?: boolean;
   onClose?: (value: string) => void;
+  onClick?: (value: string) => void;
 }
 
 export default function Tag({
@@ -12,13 +13,17 @@ export default function Tag({
   isEditing,
   onClose,
   isHighlighted,
+  onClick
 }: IProps) {
   return (
     <div
       className={`py-[2px] px-[6px] rounded-md cursor-pointer flex ${
         isHighlighted ? "bg-gray-200" : "bg-gray-100"
       } hover:bg-gray-200`}
-      onClick={(e) => e.stopPropagation()}
+      onClick={(e) => {
+        e.stopPropagation()
+        onClick && onClick(value)
+      }}
     >
       <div className=" text-violet-700">{value}</div>
       {isEditing && (
