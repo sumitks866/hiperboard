@@ -1,27 +1,28 @@
 "use client";
+import { getProjectReleases } from "@/api/project";
 import Modal from "@/components/Modal/Modal";
 import CreateRelease from "@/components/Release/CreateRelease";
 import Release from "@/components/Release/Release";
 import { ReleaseStatusEnum, ReleaseTypeEnum } from "@/utils/enums";
-import { IRelease } from "@/utils/types";
+import { IProject, IRelease, IReleaseResponse } from "@/utils/types";
 import React, { useState } from "react";
+import { useQuery } from "react-query";
 
-const mockRelease: IRelease = {
-  version: "1.0.0",
-  notes: "this is some sample note",
-  targetTasks: [],
-  dueDate: "8343 93 402",
-  labels: ["first release"],
-  status: ReleaseStatusEnum.Planning,
-  type: ReleaseTypeEnum.Major,
-  projectId: "3u4oi",
-};
+interface IProps {
+  project: IProject;
+}
 
-const releases = [mockRelease, mockRelease, mockRelease, mockRelease];
-
-export default function Releases() {
+export default function Releases({ project }: IProps) {
   const [createReleaseModalOpen, setCreateReleaseModalOpen] =
     useState<boolean>(false);
+
+  const { isLoading, error, data } = useQuery(
+    ["project-releases", project?.id],
+    () => getProjectReleases(project?.id),
+    { staleTime: 150000 }
+  );
+
+  const releases: IReleaseResponse[] = data?.data || [];
 
   return (
     <>
@@ -49,7 +50,7 @@ export default function Releases() {
 
         <div className="w-full flex-1 p-8 bg-gray-100 overflow-auto">
           {releases.map((r) => (
-            <Release key={r.version} release={r} />
+            <Release key={r.id} release={r} />
           ))}
         </div>
       </div>

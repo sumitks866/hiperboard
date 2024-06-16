@@ -18,7 +18,7 @@ export const TaskTypeOPtions: SelectOption<TaskType>[] = Object.values(
     value,
     label: value,
     keyNode: (
-      <div>
+      <div className="flex items-center">
         <i
           className={`${TaskTypeIcons[value].icon} mr-2`}
           style={{
@@ -38,7 +38,7 @@ export const TaskPriorityOptions: SelectOption<TaskPriority>[] = Object.values(
     value,
     label: value,
     keyNode: (
-      <div>
+      <div className="flex items-center">
         <i
           className={`${TaskPriorityIcons[value].icon} mr-2`}
           style={{
@@ -58,7 +58,7 @@ export const TaskStatusOptions: SelectOption<TaskStatus>[] = Object.values(
     value,
     label: value,
     keyNode: (
-      <div>
+      <div className="flex items-center">
         <i
           className={`${TaskStatusIcons[value].icon} mr-2`}
           style={{

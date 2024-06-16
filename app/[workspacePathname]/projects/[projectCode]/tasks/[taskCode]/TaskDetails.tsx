@@ -28,26 +28,11 @@ import {
   TaskTypeIcons,
 } from "@/utils/types";
 import { isUndefined } from "lodash";
-import { AvatarGenerator } from "random-avatar-generator";
 import React, { useContext, useEffect, useState } from "react";
 import TaskTimeline from "./TaskTimeline";
 import { useRouter } from "next/router";
 import { useParams } from "next/navigation";
-
-export function UserDetails(userId: string): React.JSX.Element {
-  const avatarGenerator = new AvatarGenerator();
-
-  return (
-    <div className="flex items-center">
-      <img
-        src={avatarGenerator.generateRandomAvatar(userId)}
-        alt={userId}
-        className={`h-8 mr-2`}
-      />
-      <span>{userId}</span>
-    </div>
-  );
-}
+import { UserDetails } from "@/components/User/UserDetails";
 
 export default function TaskDetails() {
   // const router = useRouter();
@@ -304,23 +289,27 @@ export default function TaskDetails() {
                   <li className="w-full flex mb-8 items-center">
                     <div className="w-[50%] font-semibold">Assignee</div>
                     <div className="w-[50%]">
-                      {task?.assigneeEmail
-                        ? UserDetails(task?.assigneeEmail)
-                        : "None"}
+                      {task?.assigneeEmail ? (
+                        <UserDetails userId={task.assigneeEmail} />
+                      ) : (
+                        "None"
+                      )}
                     </div>
                   </li>
                   <li className="w-full flex mb-8 items-center">
                     <div className="w-[50%] font-semibold">Reporter</div>
                     <div className="w-[50%]">
-                      {UserDetails(task?.reporterEmail!)}
+                      <UserDetails userId={task.reporterEmail!} />
                     </div>
                   </li>
                   <li className="w-full flex mb-8 items-center">
                     <div className="w-[50%] font-semibold">QA Contact</div>
                     <div className="w-[50%]">
-                      {task?.qaContactEmail
-                        ? UserDetails(task?.qaContactEmail!)
-                        : "None"}
+                      {task?.qaContactEmail ? (
+                        <UserDetails userId={task.qaContactEmail} />
+                      ) : (
+                        "None"
+                      )}
                     </div>
                   </li>
                 </ul>

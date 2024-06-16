@@ -15,6 +15,7 @@ interface ISelectProps {
   validated?: "default" | "error";
   errorMsg?: string;
   isInline?: boolean;
+  open?: boolean;
 }
 
 export default function Select({
@@ -30,10 +31,11 @@ export default function Select({
   validated,
   errorMsg,
   isInline = false,
+  open = false,
 }: ISelectProps) {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isOpen, setIsOpen] = useState<boolean>(open);
   const [selectedOption, setSelectedOption] = useState<SelectOption<any>>();
-  const [query, setQuery] = useState<string>("")
+  const [query, setQuery] = useState<string>("");
 
   const handleSelect = (option: SelectOption<any>) => {
     onChange && onChange(option);
@@ -71,12 +73,12 @@ export default function Select({
         </div>
 
         {isOpen && (
-          <div className="absolute top-full left-0 mt-0 w-full bg-white border-t border-gray-300 rounded-b-sm shadow-md z-10 p-2 max-h-[300px] overflow-y-auto">
+          <div className="absolute top-full left-0 mt-1 w-full bg-white border-gray-400 rounded-b-sm shadow-lg z-10 p-2 max-h-[300px] overflow-y-auto min-w-fit">
             {(options || []).map((option, index) => (
               <div
                 className={`${
                   isInline ? "p-1" : "p-2"
-                }  cursor-pointer hover:bg-gray-100 focus:bg-gray-200 ${
+                }  cursor-pointer hover:bg-gray-100 focus:bg-gray-200 min-w-fit ${
                   isEqual(option.value, selected) && "bg-gray-200"
                 }`}
                 key={index}

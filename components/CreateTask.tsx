@@ -186,13 +186,17 @@ export default function CreateTask({ onCreateSuccess }: IProps) {
         />
 
         <div className="my-2">
-          <label htmlFor={"description"} className="block mb-2 font-semibold">
+          <label
+            htmlFor="new-task-description"
+            className="block mb-2 font-semibold"
+          >
             <span>Description</span>
           </label>
           <ReactQuill
             theme="snow"
             value={description}
             onChange={setDescription}
+            id="new-task-description"
           />
         </div>
 

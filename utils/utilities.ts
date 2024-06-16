@@ -5,16 +5,37 @@ interface IGroupedTasks {
   [key: string]: ITask[];
 }
 
-export const formatDate = (dateString: string) => {
+export function generateColorCode(inputString: string): string {
+  let hash = 0;
+  for (let i = 0; i < inputString.length; i++) {
+    hash = inputString.charCodeAt(i) + ((hash << 5) - hash);
+    hash = hash & hash; // Convert to 32bit integer
+  }
+
+  // Convert the hash to a color
+  let color = "#";
+  for (let i = 0; i < 3; i++) {
+    const value = (hash >> (i * 8)) & 255;
+    color += ("00" + value.toString(16)).substr(-2);
+  }
+
+  return color;
+}
+
+export const formatDate = (dateString: string, ignoreTime = false) => {
   const date = new Date(dateString);
   const options: Intl.DateTimeFormatOptions = {
-    hour: "2-digit",
-    minute: "2-digit",
     day: "2-digit",
     month: "short",
     year: "numeric",
     hour12: false,
   };
+
+  if (!ignoreTime) {
+    options.hour = "2-digit";
+    options.minute = "2-digit";
+  }
+
   const formattedDate = date.toLocaleString("en-IN", options).replace(",", "");
   return formattedDate.split("-").join(" ");
 };

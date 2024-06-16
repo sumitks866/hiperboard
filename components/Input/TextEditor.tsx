@@ -47,10 +47,7 @@ export default function TextEditor({ value, placeholder, onSave }: IProps) {
           </div>
         </div>
       ) : (
-        <div
-          className="hover:bg-gray-50 p-2"
-          onClick={() => setIsEditing(true)}
-        >
+        <div className="hover:bg-gray-50" onClick={() => setIsEditing(true)}>
           {value ? (
             <div dangerouslySetInnerHTML={{ __html: value }} />
           ) : (

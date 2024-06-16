@@ -89,7 +89,7 @@ export default function MultiTaskSelector({
             {filtered.map((task) => (
               <button
                 key={task.id}
-                className="cursor-pointer hover:bg-gray-100 focus:bg-gray-200 p-2"
+                className="cursor-pointer hover:bg-gray-100 focus:bg-gray-200 p-2 block"
                 onClick={() => handleSelection(task)}
               >
                 <span>

@@ -9,6 +9,8 @@ export default function useScrollPosition<T extends HTMLElement>(
     scrollTop: 0,
   });
 
+  // [].reduce((),)
+
   useEffect(() => {
     const handleScroll = () => {
       const element = ref.current;

@@ -5,7 +5,6 @@ import React, { useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import ProjectSummary from "./ProjectSummary";
 import Backlogs from "./Backlogs";
-import { getProjectByCode } from "@/api/project";
 import { isNull, isUndefined } from "lodash";
 import { useDispatch } from "react-redux";
 import { AppDispatch, useAppSelector } from "@/lib/store/store";
@@ -28,14 +27,12 @@ export default function Project({
     switch (view?.toLowerCase()) {
       case "summary":
         return <ProjectSummary project={activeProject!} />;
-      case "board":
-        return <AgileBoard project={activeProject!} />;
       case "backlogs":
         return <Backlogs />;
       case "issues":
         return <Issues />;
       case "releases":
-        return <Releases />;
+        return <Releases project={activeProject!} />;
       default:
         return <ProjectSummary project={activeProject!} />;
     }

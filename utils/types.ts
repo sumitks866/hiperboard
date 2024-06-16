@@ -52,6 +52,13 @@ export interface IProject {
   code: string;
   manager: string; //username
   companyId?: string;
+  description?: string;
+}
+
+export interface IProjectSummary extends IProject {
+  issues: number;
+  releases: number;
+  companyPathname: string;
 }
 
 export interface IComment {
@@ -110,6 +117,24 @@ export interface IRelease {
   status: ReleaseStatusEnum;
   type?: ReleaseTypeEnum;
   projectId: string;
+}
+
+export interface IReleaseResponse extends IRelease {
+  id: string;
+  progress: number;
+  completedTasks: {
+    taskId: string;
+    code: string;
+    status: TaskStatus;
+    title: string;
+  }[];
+  remainingTasks: {
+    taskId: string;
+    code: string;
+    status: TaskStatus;
+    title: string;
+  }[];
+  createdOn: string;
 }
 
 type TaskPriorityWithIcon = {

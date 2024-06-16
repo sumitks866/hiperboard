@@ -65,16 +65,16 @@ export default function CreateComment({ taskId, onSuccess }: IProps) {
         >
           <path
             stroke="currentColor"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="1.5"
             d="M4.75 19.25L12 4.75L19.25 19.25L12 15.75L4.75 19.25Z"
           />
           <path
             stroke="currentColor"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="1.5"
             d="M12 15.5V12.75"
           />
         </svg>

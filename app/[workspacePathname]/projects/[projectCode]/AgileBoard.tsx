@@ -5,7 +5,7 @@ import { useAppSelector } from "@/lib/store/store";
 import { TaskStatus } from "@/utils/enums";
 import { IProject, ITask, TaskStatusIcons, TaskTypeIcons } from "@/utils/types";
 import { groupTaskByField, sortTasksByPriority } from "@/utils/utilities";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import {
   DragDropContext,
   Draggable,
@@ -13,45 +13,31 @@ import {
   DropResult,
   Droppable,
 } from "react-beautiful-dnd";
-import { useQuery } from "react-query";
-import TaskBoard from "./taskstatus";
+
+const taskStatus = [
+  TaskStatus.NEW,
+  TaskStatus.IN_PROGRESS,
+  // TaskStatus.MR_CREATED,
+  // TaskStatus.MERGED,
+  TaskStatus.ON_QA,
+  TaskStatus.DONE,
+  TaskStatus.REJECTED,
+];
 
 interface IProps {
-  project: IProject;
+  taskList: ITask[];
 }
 
-export default function AgileBoard({ project }: IProps) {
-  const { activeProject } = useAppSelector((state) => state.projectReducer);
-
+export default function AgileBoard({ taskList = [] }: IProps) {
   const [groupedTask, setGroupedTask] = useState<Record<string, ITask[]>>({});
 
-  const {
-    isLoading,
-    error,
-    data: tasks,
-  } = useQuery(["project-task-list", activeProject?.id], () =>
-    getTasks(activeProject?.id!)
-  );
-
-  const taskList: ITask[] = tasks?.data;
-  const taskStatus = [
-    TaskStatus.NEW,
-    TaskStatus.IN_PROGRESS,
-    // TaskStatus.MR_CREATED,
-    // TaskStatus.MERGED,
-    TaskStatus.ON_QA,
-    TaskStatus.DONE,
-    TaskStatus.REJECTED,
-  ];
-
   useEffect(() => {
-    const t = groupTaskByField(taskList || [], "status").byObject;
+    const t = groupTaskByField(taskList, "status").byObject;
     const newGroupedTask: Record<string, ITask[]> = {};
     taskStatus.forEach((s) => {
       newGroupedTask[s] = sortTasksByPriority(t[s] || []);
     });
     setGroupedTask(newGroupedTask);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [taskList]);
 
   const handleDragEnd = async (result: DropResult) => {

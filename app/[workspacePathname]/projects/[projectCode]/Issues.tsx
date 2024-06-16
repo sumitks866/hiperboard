@@ -1,41 +1,62 @@
 "use client";
 import { getTasks } from "@/api/task";
 import BacklogIssueCard from "@/components/Cards/BacklogIssueCard";
+import Display from "@/components/Filter/Display";
+import Filter, { IFilterOptions } from "@/components/Filter/Filter";
 import { useAppSelector } from "@/lib/store/store";
 import { ITask } from "@/utils/types";
+import { useLocalStorage } from "@uidotdev/usehooks";
 import { isNull } from "lodash";
 import { useParams, useSearchParams } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
+import { useQuery } from "react-query";
+import AgileBoard from "./AgileBoard";
+
+function TasksListView({ taskList }: { taskList: ITask[] }) {
+  return (
+    <>
+      {taskList.map((task) => (
+        <BacklogIssueCard key={task.taskCode} task={task} />
+      ))}
+    </>
+  );
+}
 
 export default function Issues() {
   const searchParams = useSearchParams();
   const labels = searchParams.getAll("label");
   const { activeProject } = useAppSelector((state) => state.projectReducer);
-  const [taskList, setTaskList] = useState<ITask[]>([]);
+  const {
+    isLoading,
+    error,
+    data: tasks,
+  } = useQuery(["project-task-list", activeProject?.id], () =>
+    getTasks(activeProject?.id!)
+  );
+  const taskList: ITask[] = useMemo(() => tasks?.data || [], [tasks?.data]);
 
-  const loadTasks = async () => {
-    if (isNull(activeProject)) return;
-    try {
-      const res = await getTasks(activeProject?.id, { labels });
-      setTaskList(res.data);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  const [filteredTasks, setFilteredTasks] = useState<ITask[]>([]);
+  const [view, setView] = useLocalStorage<"list" | "grid">(
+    "issues-view-type",
+    "list"
+  );
 
-  useEffect(() => {
-    loadTasks();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [activeProject]);
+  if (isLoading) return <>Loading...</>;
+
   return (
-    <div className="w-full mx-auto h-full flex flex-col px-8">
-      <h2 className="py-6 text-xl font-semibold">Issues</h2>
-      {/* <hr className="border-gray-400" /> */}
-      <div className="w-full flex-1 px-24 py-12 bg-gray-100 overflow-auto ">
-        {taskList.map((task) => (
-          <BacklogIssueCard key={task.taskCode} task={task} />
-        ))}
+    <div className="w-full mx-auto flex flex-col">
+      <h3 className="py-2 text-lg font-semibold px-6">Issues</h3>
+      <div className="py-1 border-y px-8 flex justify-between items-center">
+        <Filter originalTaskList={taskList} onChange={setFilteredTasks} />
+        <Display display={view} onChange={setView} />
       </div>
+      <section className="w-full flex-1 overflow-auto">
+        {view === "list" ? (
+          <TasksListView taskList={filteredTasks} />
+        ) : (
+          <AgileBoard taskList={filteredTasks} />
+        )}
+      </section>
     </div>
   );
 }

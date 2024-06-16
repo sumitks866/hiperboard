@@ -6,12 +6,14 @@ interface IProps {
   children: React.ReactNode;
   editComponent: React.ReactNode;
   handleChange?: () => void;
+  className?: string;
 }
 
 export default function InlineEdit({
   children,
   editComponent,
   handleChange,
+  className = "",
 }: IProps) {
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [isHovered, setIsHovered] = useState(false);
@@ -33,15 +35,12 @@ export default function InlineEdit({
       }
     };
 
-    // const handleEvent = (isEditing: boolean) => {
     if (isEditing) {
       document.addEventListener("click", handleClickOutside);
     } else {
       document.removeEventListener("click", handleClickOutside);
     }
-    // };
 
-    // handleEvent(isEditing);
     return () => {
       document.removeEventListener("click", handleClickOutside);
     };
@@ -51,7 +50,7 @@ export default function InlineEdit({
     <div
       className={`w-full flex justify-between rounded-sm items-center ${
         isEditing ? "border border-gray-300 px-2" : "hover:bg-gray-50"
-      }`}
+      } ${className}`}
       ref={ref}
     >
       {isEditing ? (

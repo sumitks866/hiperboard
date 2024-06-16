@@ -6,8 +6,6 @@ import { AppDispatch, useAppSelector } from "@/lib/store/store";
 import { IWorkspace, SelectOption } from "@/utils/types";
 import { isEmpty, isNull, isUndefined } from "lodash";
 import { createProject } from "@/api/project";
-import { useDispatch } from "react-redux";
-import { updateProjectList } from "@/lib/store/projects/projectSlice";
 
 interface IProps {
   onSuccess?: () => void;

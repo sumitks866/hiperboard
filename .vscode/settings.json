@@ -1,0 +1,7 @@
+{
+    "peacock.affectedSettings": [
+        "activityBar",
+        "statusBar",
+        "titleBar"
+    ]
+}

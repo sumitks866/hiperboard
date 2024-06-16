@@ -1,8 +1,8 @@
-import { IProject } from "@/utils/types";
+ import { IProject, IProjectSummary } from "@/utils/types";
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 interface ProjectState {
-  activeProject: IProject | null;
+  activeProject: IProjectSummary | null;
   projectList: IProject[];
 }
 
@@ -18,7 +18,7 @@ export const projectSlice = createSlice({
     updateProjectList: (state, action: PayloadAction<IProject[]>) => {
       state.projectList = action.payload;
     },
-    setActiveProject: (state, action: PayloadAction<IProject>) => {
+    setActiveProject: (state, action: PayloadAction<IProjectSummary>) => {
       state.activeProject = action.payload;
     },
   },
